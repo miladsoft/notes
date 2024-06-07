@@ -10,6 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "version": "node -p \"require('./package.json').version\"",
+    "lint": "ng lint",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
   "private": true,
