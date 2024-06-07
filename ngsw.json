@@ -1,0 +1,149 @@
+{
+  "configVersion": 1,
+  "timestamp": 1717746250229,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/22.5dfdeae90d3e0e0f.js",
+        "/911.d8294359b5074446.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.67524d9c29b3c95c.js",
+        "/manifest.webmanifest",
+        "/polyfills.cb95eb3bf985665c.js",
+        "/runtime.ddba058be9d592d1.js",
+        "/styles.1e65fccc3a12ffdd.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/badge-1024x1024.png",
+        "/assets/badge-128x128.png",
+        "/assets/badge-512x512.png",
+        "/assets/bg.jpg",
+        "/assets/blank.png",
+        "/assets/blockcore-light-small.png",
+        "/assets/blockcore-notes-screenshot.png",
+        "/assets/blockcore-notes-social.png",
+        "/assets/chat-bg.png",
+        "/assets/gradient.jpg",
+        "/assets/i18n/en.json",
+        "/assets/i18n/no.json",
+        "/assets/i18n/ru.json",
+        "/assets/icon.svg",
+        "/assets/icons/icon-120x120.png",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-128x128.webp",
+        "/assets/icons/icon-16x16.png",
+        "/assets/icons/icon-180x180.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-2048x2048.png",
+        "/assets/icons/icon-256x256.png",
+        "/assets/icons/icon-256x256.webp",
+        "/assets/icons/icon-32x32.png",
+        "/assets/icons/icon-48x48.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/icons/icon-light-128x128.png",
+        "/assets/icons/icon.svg",
+        "/assets/logos/youtube.png",
+        "/assets/logos/youtube.svg",
+        "/assets/nostr.svg",
+        "/assets/nostritch.avif",
+        "/assets/nostritch.jpg",
+        "/assets/post.svg",
+        "/assets/profile-bg.png",
+        "/assets/profile.png",
+        "/assets/shared.worker.js",
+        "/material-icons-base-400-normal.6a5d2b3f2786b8b0.woff",
+        "/material-icons-base-400-normal.a987d1598549506d.woff2"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/22.5dfdeae90d3e0e0f.js": "f856e04aff6c2d27cbfc002838d371c5043d7ecb",
+    "/911.d8294359b5074446.js": "8cc56ecc83f49a127c251f3bfa1edb0863321855",
+    "/assets/badge-1024x1024.png": "6b243a1b557ac27ba66255813f419579c0a29149",
+    "/assets/badge-128x128.png": "530be6f8d900da745a127c1bfeffd6ba0647c704",
+    "/assets/badge-512x512.png": "ebdab5b99e10df5781e1aa17b301619dc171a4b2",
+    "/assets/bg.jpg": "6f144bd16cfa604f2b443053b72f65085d79b16e",
+    "/assets/blank.png": "9bd57a695b57b5d7f66e14ac82a253361a927b3c",
+    "/assets/blockcore-light-small.png": "53480e79ba977f2705dd9ea529bfdea18949820b",
+    "/assets/blockcore-notes-screenshot.png": "bf785292460ee1327231c2eedc9f9c3cc80af852",
+    "/assets/blockcore-notes-social.png": "1d8540baaf6f7e4cbb157c718c8ee0124c21f560",
+    "/assets/chat-bg.png": "13693eb17195131dc5fc42721583fe0a12b7756b",
+    "/assets/gradient.jpg": "25f5214c12d2f72e56d0aef974f835e7faf3c199",
+    "/assets/i18n/en.json": "2cf795a14fe21b18df8790f024a19b33cd74b100",
+    "/assets/i18n/no.json": "dee420f2460a0bc3ca5db1f86094a1a21ff7f527",
+    "/assets/i18n/ru.json": "2cf795a14fe21b18df8790f024a19b33cd74b100",
+    "/assets/icon.svg": "3dd24d73fa8cf0a1a89ea611aedbe741ad9b7995",
+    "/assets/icons/icon-120x120.png": "f2caf94507140fcf3ae926c608df9cd0db4e057f",
+    "/assets/icons/icon-128x128.png": "4af6e0c92b881022818f5953353768e48a8122e5",
+    "/assets/icons/icon-128x128.webp": "4cd07f2ab33420ced359070fcb30ba1d71e486ca",
+    "/assets/icons/icon-16x16.png": "771ba804fccfe2b61d05e0fed9e5f7c9424177ac",
+    "/assets/icons/icon-180x180.png": "50522d990ff4e68946a9c5caa900f317905ec34b",
+    "/assets/icons/icon-192x192.png": "a59946e3cea70a4e2c41884dc8331deddc86631a",
+    "/assets/icons/icon-2048x2048.png": "046b367f645d254ee0e646848fc4d22e5ec5b49e",
+    "/assets/icons/icon-256x256.png": "617ea1052b5c3daaf74cb23f476a2d1229e5ede8",
+    "/assets/icons/icon-256x256.webp": "0c325bc2d5576c2c0c29d4ae0ae48bd2d4c6f832",
+    "/assets/icons/icon-32x32.png": "ecf21080f621c70cb5649d6c6f357c39bd2507b3",
+    "/assets/icons/icon-48x48.png": "268f698275be62e8b07d28b2f9d89ad898a211f1",
+    "/assets/icons/icon-512x512.png": "dfed3dba7ab9133e9bd70ec24f47f2bc643f8efc",
+    "/assets/icons/icon-96x96.png": "212471ab808821e43853eee29acd5c586639a1b0",
+    "/assets/icons/icon-light-128x128.png": "ce6c0b954d7e624e000dfa3dd988cba3cb1c8ed0",
+    "/assets/icons/icon.svg": "7afd08f3da489226cbc25382dee256456302ca17",
+    "/assets/logos/youtube.png": "5231b443eddd2d747343a279c89f14dee7e77ba6",
+    "/assets/logos/youtube.svg": "6df9fdd2521851dadd1c6ed2900d53d776eb9d68",
+    "/assets/nostr.svg": "7e8ea9d242deb15e54a59739a8c0d4fcd04a21c3",
+    "/assets/nostritch.avif": "93a9d6a986596cb329c8f440678e08d3641c9c16",
+    "/assets/nostritch.jpg": "2ab92707847c7c00bb73a322a48c5d762e0c871c",
+    "/assets/post.svg": "30a3b17f44368186b412721d4981829de0a573dd",
+    "/assets/profile-bg.png": "72e07b2ba4f4cb3b9c0cf3351bdbba178646e41e",
+    "/assets/profile.png": "35f15a95e5fc7939121c71638a0cd8fe9830f7b6",
+    "/assets/shared.worker.js": "2869d9f1b26076a62d0182dd1b9b309702cfcb67",
+    "/favicon.ico": "e225f1ea8ad3872db850d760a394fa09d353c80d",
+    "/index.html": "695b90eddc2466b6f995cae97969f69d8c65bf8d",
+    "/main.67524d9c29b3c95c.js": "d02ab3804e82ba8c68473add07558140e50584b6",
+    "/manifest.webmanifest": "c94536f9d6abd0013842cd3c1af813cc150edf88",
+    "/material-icons-base-400-normal.6a5d2b3f2786b8b0.woff": "6e4299698a545c9cf5798fdbb3dd2e0350b41ae4",
+    "/material-icons-base-400-normal.a987d1598549506d.woff2": "c8de67e55036ce9ed7844c9a010a0c4cd5dfc54b",
+    "/polyfills.cb95eb3bf985665c.js": "fa6359d13e41052050225533cabfeb8f3db43d2d",
+    "/runtime.ddba058be9d592d1.js": "331c9520b3b3662181d506f441c619e3417cc294",
+    "/styles.1e65fccc3a12ffdd.css": "7cd457ef4cb8e6e5acb08969ea212c5690d1f584"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
