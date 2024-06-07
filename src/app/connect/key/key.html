@@ -1,0 +1,110 @@
+<div class="connect-container">
+  <div class="connect-menu mat-app-background">
+    <a routerLink="/connect"><img class="connect-logo" width="128" height="128" src="assets/icons/icon-256x256.webp" /></a>
+    <div class="logo-text"><span class="hide-tiny">Blockcore</span> Notes</div>
+    <div class="connect-spacer"></div>
+    <button (click)="theme.darkMode = !theme.darkMode" mat-icon-button class="theme-toggle">
+      <mat-icon aria-label="Menu" class="material-icons">{{ theme.darkMode ? "dark_mode" : "light_mode" }}</mat-icon>
+    </button>
+  </div>
+  <div class="connect-content">
+    <mat-card class="card" *ngIf="step == 1">
+      <mat-card-content>
+        <h1>{{ 'Key.PrivateKeyImport' | translate }}</h1>
+        <p>{{ 'Key.PrivateKeyImportSubtitle' | translate }}</p>
+        <p>{{ 'Key.PrivateKeyImportDescription' | translate }}</p>
+        <br />
+        <button class="start-button full-button" (click)="step = 2" mat-flat-button color="accent">{{ 'Key.SecretRecoveryPhrase' | translate }}</button>
+        <br /><br />
+        <button class="start-button full-button" (click)="step = 3" mat-flat-button color="accent">{{ 'Key.PrivateKey' | translate }}</button>
+        <br /><br />
+        <button class="start-button full-button" (click)="scanQrCode()" mat-flat-button color="accent"><mat-icon>qr_code_scanner</mat-icon>{{ 'Key.ScanQRCode' | translate }}</button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card" *ngIf="step == 2">
+      <mat-card-content>
+        <h1>{{ 'Key.SecretRecoveryPhraseImport' | translate }}</h1>
+        <br />
+        <mat-form-field class="input-full-width">
+          <mat-label>{{ 'Key.SecretRecoveryPhrase' | translate }}</mat-label>
+          <textarea class="note-input" matInput type="text" [(ngModel)]="mnemonic" rows="2"></textarea>
+        </mat-form-field>
+        <br />
+        <button [disabled]="!mnemonic" class="start-button" (click)="setPrivateKey(); step = 3" mat-raised-button>{{ 'Key.Continue' | translate }}</button><br /><br />
+
+        <!-- <div><button class="skip-button" (click)="persistKey(privateKey)" color="primary" mat-raised-button>Connect (read-only)</button></div> -->
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card" *ngIf="step == 3">
+      <mat-card-content>
+        <h1 *ngIf="mnemonic">{{ 'Key.ProtectPrivateKeyWithPassword' | translate }}</h1>
+        <h1 *ngIf="!mnemonic">{{ 'Key.PrivateKeyImport' | translate }}</h1>
+        <p *ngIf="!mnemonic">If you already have an existing private for your Nostr account, you can import it here and protect it with a password.</p>
+        <p>Having a strong password (we allow empty) is adviced, as this will be used to protect your private key using encryption when you are not using Blockcore Notes.</p>
+        <br />
+
+        <p class="wrap" *ngIf="mnemonic">{{ 'Key.YourPersonalPrivateKey' | translate }}:<br>{{ privateKey }}</p>
+        <div *ngIf="!mnemonic">
+          <mat-form-field appearance="fill" class="input-full-width connect-input">
+            <mat-icon class="circle" matPrefix>person_add</mat-icon>
+            <mat-label>{{ 'Key.PrivateKey' | translate }}</mat-label>
+            <input (keyup)="updatePublicKey()" placeholder="nsec..." matInput type="password" [(ngModel)]="privateKey" />
+          </mat-form-field>
+        </div>
+
+        <form>
+          <mat-form-field appearance="fill" class="input-full-width connect-input">
+            <mat-icon class="circle" matPrefix>person_add</mat-icon>
+            <mat-label>{{ 'Key.PublicKey' | translate }}</mat-label>
+            <input [readonly]="true" autocomplete="username" name="email" placeholder="npub..." matInput type="email" [(ngModel)]="publicKey" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="input-full-width connect-input">
+            <mat-icon class="circle" matPrefix>password</mat-icon>
+            <mat-label>{{ 'Create.PasswordOptional' | translate }}</mat-label>
+            <input matInput type="password" autocomplete="current-password" name="password" [(ngModel)]="password" />
+          </mat-form-field>
+
+          <br />
+          <button [disabled]="!publicKey" class="start-button" (click)="persistKey()" mat-raised-button>{{ 'Key.Connect' | translate }}</button><br /><br />
+        </form>
+
+        <p *ngIf="!error" class="public-key dimmed"><strong>{{ 'Key.PublicKeyHex' | translate }}</strong>: {{ publicKeyHex }}</p>
+        <p *ngIf="error" class="error">{{ 'Key.Error' | translate }}: {{ error }}</p>
+        <p class="dimmed">Remember that Blockcore cannot change or reset your password. Make sure you have a separate backup of your <strong>private key</strong> in case you loose your password.</p>
+        <p class="dimmed">You will be asked to enter password (if supplied) when Notes need to sign events on your behalf.</p>
+
+        <!-- <div><button class="skip-button" (click)="persistKey(privateKey)" color="primary" mat-raised-button>Connect (read-only)</button></div> -->
+      </mat-card-content>
+    </mat-card>
+
+    <!-- <mat-card class="card warn">
+      <mat-card-content>
+       
+          <button class="start-button start-button-consent" *ngIf="consent" (click)="connect()" mat-flat-button>Connect using extension</button><br /><br />
+
+          <button class="start-button start-button-consent" *ngIf="consent" (click)="readOnlyLogin = !readOnlyLogin" mat-flat-button>Connect using public key (read only)</button><br /><br />
+
+          <div *ngIf="readOnlyLogin">
+            <div>
+              <div>
+                <p>Just paste your (or someone else's) Nostr public key (npub) here:</p>
+                <mat-form-field appearance="fill" class="input-full-width">
+                  <mat-icon class="circle" matPrefix>person_add</mat-icon>
+                  <mat-label>Public Key</mat-label>
+                  <input matInput type="text" [(ngModel)]="readOnlyKey" />
+                </mat-form-field>
+                <div><button class="skip-button" (click)="anonymous(readOnlyKey)" color="primary" mat-raised-button>Connect (read-only)</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!consent" class="consent-required warn">You must agree with the notice below to enable login.</div>
+          <br />
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+  </div>
+</div>

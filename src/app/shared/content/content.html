@@ -1,0 +1,90 @@
+<div class="content clickable" *ngIf="event">
+  <!-- <div class="container-16-9">
+    <video controls preload="none">
+      <source src="video.mp4" type='video/mp4' />
+    </video>
+  </div> -->
+
+  <!-- <div style="--aspect-ratio: 21/9;">
+    <video...></video>
+  </div> -->
+
+  <!-- <span class="event-content clickable" [ngClass]="{ 'event-content-big': content && content.length < 7 }">{{ content }}</span><span *ngIf="event.contentCut">... (message was truncated)</span> -->
+
+  <span class="event-content clickable" [ngClass]="{ 'event-content-big': bigSize }">
+    <ng-container *ngFor="let token of dynamicText">
+      <ng-template [ngIf]="isString(token)">{{ token }}</ng-template>
+      <ng-template [ngIf]="!isString(token) && isFollowing" [ngSwitch]="token.token">
+
+        <ng-container *ngSwitchCase="'npub'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'nprofile'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'note'"><a class="reply-link" [routerLink]="['/e', token.word]">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'nevent'"><a class="reply-link" [routerLink]="['/e', token.word]">{{ token.word }}</a></ng-container>
+        
+        <ng-container *ngSwitchCase="'username'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'link'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'image'"><img mat-card-image class="event-image" loading="lazy" decoding="async" [matTooltip]="token.word" [alt]="token.word" [src]="token.safeWord" (click)="expandImage(token.word)" /></ng-container>
+        <ng-container *ngSwitchCase="'linebreak'"><br /></ng-container>
+        <ng-container *ngSwitchCase="'spotify'">
+          <iframe sandbox="allow-scripts allow-same-origin" style="border-radius: 12px" [src]="token.safeWord" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </ng-container>
+        <ng-container *ngSwitchCase="'tidal'">
+          <iframe sandbox="allow-scripts allow-same-origin" style="border-radius: 12px" [src]="token.safeWord" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </ng-container>
+        <ng-container *ngSwitchCase="'video'"
+          ><video class="event-video" controls preload="none"><source [src]="token.safeWord" /></video>
+          <button mat-icon-button matTooltip="Add to media player" (click)="enque(token.word, 'Video')">
+            <mat-icon>add_to_queue</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="'audio'"
+          ><video class="event-video" controls preload="none"><source [src]="token.safeWord" /></video>
+          <button mat-icon-button matTooltip="Add to media player" (click)="enque(token.word, 'Audio')">
+            <mat-icon>queue</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngSwitchCase="'youtube'"
+          ><iframe sandbox="allow-scripts allow-same-origin allow-presentation" id="ytplayer" class="event-video" type="text/html" [src]="token.safeWord" frameborder="0" allowfullscreen></iframe>
+          <button mat-icon-button matTooltip="Add to media player" (click)="enque(token.word, 'YouTube')">
+            <mat-icon>add_to_queue</mat-icon>
+          </button></ng-container
+        >
+        <ng-container *ngSwitchCase="'meme'"><img loading="lazy" class="meme" [matTooltip]="token.tooltip" (click)="expandImageUrl(token.word)" [src]="token.word" /></ng-container>
+      </ng-template>
+
+      <ng-template [ngIf]="!isString(token) && !isFollowing" [ngSwitch]="token.token">
+
+        <ng-container *ngSwitchCase="'npub'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'nprofile'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'note'"><a class="reply-link" [routerLink]="['/e', token.word]">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'nevent'"><a class="reply-link" [routerLink]="['/e', token.word]">{{ token.word }}</a></ng-container>
+
+        <ng-container *ngSwitchCase="'username'"><a class="reply-link" [routerLink]="['/p', token.word]">@{{ getDisplayName(token.word) }}</a></ng-container>
+        <ng-container *ngSwitchCase="'link'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'image'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'video'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'audio'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'spotify'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'tidal'"><a [href]="[token.word]" target="_blank">{{ token.word }}</a></ng-container>
+        <ng-container *ngSwitchCase="'linebreak'"><br /></ng-container>
+        <ng-container *ngSwitchCase="'youtube'"
+          ><a [href]="[token.word]" target="_blank">{{ token.word }}</a>&nbsp;<button mat-icon-button matTooltip="Add to media player" (click)="enque(token.word, 'YouTube')">
+            <mat-icon>add_to_queue</mat-icon>
+          </button></ng-container
+        >
+        <ng-container *ngSwitchCase="'meme'"><img loading="lazy" class="meme" [matTooltip]="token.tooltip" (click)="expandImageUrl(token.word)" [src]="token.word" /></ng-container>
+      </ng-template>
+    </ng-container>
+    <span *ngIf="event.contentCut">... (message was truncated)</span>
+  </span>
+
+  <ng-template [ngIf]="displayRepliesTo">
+    <div *ngIf="repliesTo(event) as replies" class="reply-to dimmed clickable">
+      <span class="clickable" *ngIf="replies.length > 0">Replying to </span>
+      <app-reply-list [keys]="replies"></app-reply-list>
+    </div>
+  </ng-template>
+  <mat-chip-set class="hashtags">
+    <mat-chip *ngFor="let tag of hashtags(event.tags)">#{{ tag }}</mat-chip>
+  </mat-chip-set>
+</div>

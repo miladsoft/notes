@@ -1,0 +1,186 @@
+.dashboard-header {
+  display: flex;
+  gap: 2em;
+  flex-direction: row;
+}
+
+.dashboard-header mat-card {
+  border-radius: 20px;
+}
+
+.card-container {
+  box-sizing: border-box;
+}
+
+.default-card {
+  display: inline-block;
+  /* margin-bottom: 1em; */
+  width: 300px;
+  height: 160px;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.follow-button {
+  margin-top: 1em;
+  width: 100%;
+  font-size: 1.2em;
+  height: 72px;
+  text-align: center;
+}
+
+.follow-card-content {
+  text-align: center;
+}
+
+.follow-toggle {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.dashboard-left {
+  flex-grow: 4;
+  flex-shrink: 1;
+  flex-basis: 10%;
+}
+
+.dashboard-right {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 10%;
+}
+
+/* .lists-card {
+  width: 100%;
+} */
+
+.list-selection {
+  margin-top: 1.4em;
+}
+
+.list-selection button {
+  margin-top: 0.8em;
+}
+
+@media only screen and (max-width: 920px) {
+  .dashboard {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .default-card {
+    display: block;
+    width: 100%;
+  }
+}
+
+.home {
+  display: flex;
+  gap: 1.5em;
+  max-width: 1360px;
+  align-self: center;
+}
+
+.home-left {
+  flex: 1 1 0;
+  min-width: 240px;
+}
+
+.home-right {
+  flex: 3 1 0;
+}
+
+.home-card {
+  border-radius: 15px;
+  margin-bottom: 1.8em;
+  width: 100%;
+}
+
+.home-card-thumbnail {
+  width: 56px;
+  height: 56px;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  border-radius: 5px;
+}
+
+.home-card-image {
+  width: 100%;
+}
+
+.page {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 599px) {
+  .home {
+    flex-direction: column-reverse;
+    gap: 1em;
+  }
+}
+
+.view-more-container {
+  text-align: center;
+}
+
+.activity-feed {
+  font-size: 0.85em;
+}
+
+.wipe-button {
+  margin-bottom: 1em;
+}
+
+.profile-line {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.2em;
+}
+
+.profile-line::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.profile-line::-webkit-scrollbar-thumb:hover {
+  background-color: #a3a5a7c2;
+}
+
+.profile-line .event-header {
+  flex-flow: nowrap;
+}
+
+.profile-line .icon-medium {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.profile-line-more-button {
+  margin-top: 0.4em;
+  margin-left: 0.4em;
+}
+
+drag-scroll {
+  height: 100px;
+  width: 100%;
+}
+

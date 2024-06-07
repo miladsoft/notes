@@ -1,0 +1,82 @@
+<div class="feed-page">
+  <div class="options">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ 'Badges.Options' | translate }}</mat-panel-title>
+          <mat-panel-description></mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="options-buttons">
+          <button mat-stroked-button routerLink="/editor/badges">{{ 'Badges.BadgeEditor' | translate }}</button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <app-event-header [pubkey]="pubkey"></app-event-header>
+
+  <mat-tab-group [selectedIndex]="tabIndex" (selectedTabChange)="onTabChanged($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">verified</mat-icon>
+        <span *ngIf="(appState.displayLabels$ | async) === false">&nbsp;{{ 'Badges.Accepted' | translate }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="badges" *ngIf="profileBadgesSub.events">
+          <app-badge-card [id]="id" *ngFor="let id of profileBadges">
+            <!-- {{badge | json}}
+            <br /><br />
+            <div class="dimmed">
+              Created by:&nbsp;<app-profile-name [pubkey]="badge.pubkey"></app-profile-name>
+              <br />
+              Last updated: <app-date [date]="badge.created_at"></app-date>
+            </div> -->
+          </app-badge-card>
+
+          <!-- <app-badge-card>
+            <button class="badge-card-button" mat-stroked-button>PUT ON PROFILE</button>
+            <button class="badge-card-button" mat-stroked-button>HIDE</button>
+          </app-badge-card> -->
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">emoji_events</mat-icon>
+        <span *ngIf="(appState.displayLabels$ | async) === false">&nbsp;{{ 'Badges.Awarded' | translate }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="badges" *ngIf="receivedBadgesSub.events">
+          <app-badge-card [id]="getId(badge)" *ngFor="let badge of receivedBadgesSub.events">
+            <div class="dimmed">
+              Issued by:&nbsp;<app-profile-name [pubkey]="badge.pubkey"></app-profile-name>
+              <br />
+              Issued date: <app-date [date]="badge.created_at"></app-date>
+            </div>
+          </app-badge-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">badge</mat-icon>
+        <span *ngIf="(appState.displayLabels$ | async) === false">&nbsp;{{ 'Badges.Created' | translate }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="badges" *ngIf="badgeDefinitionsSub.events">
+          <app-badge-card [badge]="badge" *ngFor="let badge of badgeDefinitionsSub.events">
+            <!-- <button class="badge-card-button" (click)="issue(badge)" mat-stroked-button>ISSUE BADGE</button> -->
+            <button class="badge-card-button" (click)="edit(badge)" mat-stroked-button>EDIT</button>
+          </app-badge-card>
+
+          <!-- <app-badge-card [badge]="badge" *ngFor="let badge of badgeService.definitions">
+            <button class="badge-card-button" (click)="edit(badge)" mat-stroked-button>EDIT</button>
+          </app-badge-card> -->
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

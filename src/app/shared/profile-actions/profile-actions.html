@@ -1,0 +1,137 @@
+<!-- <ng-template [ngIf]="showFollow && showFollowBack">
+  <button class="follow-button" (click)="follow()" *ngIf="profile?.status == 0" mat-flat-button>Follow Back</button>
+</ng-template>
+
+<ng-template [ngIf]="showFollow && !showFollowBack">
+  <button class="follow-button" (click)="follow()" *ngIf="profile?.status == 0" mat-flat-button color="primary">Follow</button>
+</ng-template> -->
+
+<button *ngIf="!fab" class="action-button" mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon class="action-button-icon">more_vert</mat-icon>
+</button>
+
+<button *ngIf="fab" mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="saveNote()" *ngIf="event && !event.saved">
+    <mat-icon>bookmark_add</mat-icon>
+    <span>Bookmark</span>
+  </button>
+
+  <button mat-menu-item (click)="removeNote()" *ngIf="event && event.saved">
+    <mat-icon>bookmark_remove</mat-icon>
+    <span>Remove from Notes</span>
+  </button>
+
+  <button mat-menu-item (click)="follow()" *ngIf="profile?.status == 0">
+    <mat-icon>person_add</mat-icon>
+    <span>Follow</span>
+  </button>
+
+  <button mat-menu-item (click)="unfollow()" *ngIf="profile?.status == 1">
+    <mat-icon>person_remove</mat-icon>
+    <span>Unfollow</span>
+  </button>
+
+  <button mat-menu-item [matMenuTriggerFor]="categories" *ngIf="profile?.status != 3">
+    <mat-icon>supervised_user_circle</mat-icon>
+    <span>Move to Circle</span>
+  </button>
+
+  <button mat-menu-item [matMenuTriggerFor]="badges">
+    <mat-icon>badge</mat-icon>
+    <span>Badge</span>
+  </button>
+
+  <button mat-menu-item [matMenuTriggerFor]="copyMenu" (click)="copy(getNpub(profile!.pubkey))">
+    <mat-icon>copy_all</mat-icon>
+    <span>Copy</span>
+  </button>
+
+  <button mat-menu-item [matMenuTriggerFor]="shareMenu">
+    <mat-icon>ios_share</mat-icon>
+    <span>Share</span>
+  </button>
+
+  <button mat-menu-item (click)="unmute()" *ngIf="profile?.status == 2">
+    <mat-icon>notifications</mat-icon>
+    <span>Unmute</span>
+  </button>
+
+  <button mat-menu-item (click)="mute()" *ngIf="profile?.status == 1">
+    <mat-icon>notifications_off</mat-icon>
+    <span>Mute</span>
+  </button>
+
+  <button mat-menu-item (click)="unblock()" *ngIf="profile?.status == 3">
+    <mat-icon>cancel</mat-icon>
+    <span>Unblock</span>
+  </button>
+
+  <button mat-menu-item (click)="block()" *ngIf="profile?.status! < 3">
+    <mat-icon>block</mat-icon>
+    <span>Block</span>
+  </button>
+</mat-menu>
+
+<mat-menu #categories="matMenu">
+  <button *ngFor="let circle of circleService.circles" mat-menu-item (click)="follow(circle.id)">
+    <mat-icon [style.color]="circle.color">trip_origin</mat-icon>
+    <span>{{ circle.name }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #copyMenu="matMenu">
+  <button mat-menu-item (click)="copy(getNpub(profile!.pubkey))">
+    <mat-icon>content_copy</mat-icon>
+    <span>Identifier (npub)</span>
+  </button>
+  <button mat-menu-item (click)="copy(profile!.pubkey)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Identifier (hex)</span>
+  </button>
+  <button mat-menu-item (click)="copyProfileUrl(profile!.pubkey)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Identifier URL (npub)</span>
+  </button>
+  <button disabled="true" mat-menu-item (click)="copyProfileUrl(profile!.pubkey)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Profile URL (nprofile)</span>
+  </button>
+  <button mat-menu-item (click)="copyProfile()">
+    <mat-icon>content_copy</mat-icon>
+    <span>Profile Data</span>
+  </button>
+  <button mat-menu-item *ngIf="this.profile?.following" (click)="copyFollowing()">
+    <mat-icon>content_copy</mat-icon>
+    <span>Following List</span>
+  </button>
+  <button mat-menu-item *ngIf="this.profile?.relays" (click)="copyRelays()">
+    <mat-icon>content_copy</mat-icon>
+    <span>Relay List</span>
+  </button>
+</mat-menu>
+
+<mat-menu #shareMenu="matMenu">
+  <button mat-menu-item (click)="shareProfile(profile)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Profile</span>
+  </button>
+  <button mat-menu-item (click)="copy('https://notes.blockcore.net/p/' + profile!.pubkey)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Profile URL</span>
+  </button>
+</mat-menu>
+
+<mat-menu #badges="matMenu">
+  <button mat-menu-item (click)="openBadges(profile!.pubkey)">
+    <mat-icon>badge</mat-icon>
+    <span>View Badges</span>
+  </button>
+  <!-- <button mat-menu-item>
+    <mat-icon>badge</mat-icon>
+    <span>Issue Badge to</span>
+  </button> -->
+</mat-menu>

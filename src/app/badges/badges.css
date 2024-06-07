@@ -1,0 +1,16 @@
+.badge-header {
+  margin-bottom: 1em;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1em;
+  padding-top: 1em;
+}
+
+.options-buttons button {
+  margin-right: 1em;
+  margin-bottom: 1em;
+}

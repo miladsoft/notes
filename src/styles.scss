@@ -1,0 +1,1036 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+@import "@fontsource/material-icons";
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$blockcore-light-primary: mat.define-palette(mat.$purple-palette);
+$blockcore-light-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$blockcore-light-warn: mat.define-palette(mat.$red-palette);
+
+$blockcore-dark-primary: mat.define-palette(mat.$purple-palette);
+$blockcore-dark-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$blockcore-dark-warn: mat.define-palette(mat.$red-palette);
+
+$blockcore-notes-typography: mat.define-typography-config(
+  $font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
+);
+
+$blockcore-notes-level: mat.define-typography-level(
+  $font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
+  $font-weight: 400,
+  $font-size: "18px",
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$blockcore-light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $blockcore-light-primary,
+      accent: $blockcore-light-accent,
+      warn: $blockcore-light-warn,
+    ),
+    typography: $blockcore-notes-typography,
+    level: $blockcore-notes-level,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($blockcore-light-theme);
+
+// $blockcore-notes-level: mat.define-typography-level(
+//   $font-family: Roboto,
+//   $font-weight: 400,
+//   $font-size: 1rem,
+//   $line-height: 1,
+//   $letter-spacing: normal,
+// );
+
+/* You can add global styles to this file, and also import other style files */
+
+$blockcore-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $blockcore-dark-primary,
+      accent: $blockcore-dark-accent,
+      warn: $blockcore-dark-warn,
+    ),
+    typography: $blockcore-notes-typography,
+    level: $blockcore-notes-level,
+  )
+);
+
+.dark {
+  @include mat.all-component-colors($blockcore-dark-theme);
+}
+
+a {
+  color: mat.get-color-from-palette($blockcore-dark-primary);
+}
+
+.dark a {
+  color: mat.get-color-from-palette($blockcore-light-primary);
+}
+
+html,
+body {
+  background-color: #212121;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+body {
+  font-size: 18px;
+  // background-color: mat.$background-color;
+  // overflow: hidden;
+  overscroll-behavior-y: contain;
+  overflow-x: hidden;
+  overflow-y: overlay !important;
+  // overflow: scroll !important;
+}
+
+.rightToLeft > * {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+[dir="rtl"] {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  }
+
+  .mat-list-base .mat-subheader,
+  .mat-tooltip,
+  .mat-typography,
+  .mat-card,
+  .mat-caption {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  }
+}
+
+// .connect-container {
+//   min-height: 100%;
+//   background-color: #ddd;
+//   border-left: 2px solid #666;
+//   border-right: 2px solid #666;
+//   width: 676px;
+//   margin: 0 auto;
+// }
+// * html .connect-container {
+//   height: 100%;
+// }
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-toolbar {
+  flex: 0 0 64px;
+}
+
+@media only screen and (max-width: 599px) {
+  .app-toolbar {
+    flex: 0 0 56px;
+  }
+}
+
+.mat-sidenav-container {
+  flex-grow: 2;
+  height: 100%;
+  overflow: hidden;
+}
+
+.full-page {
+  height: 100%;
+}
+
+.full-page-flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.full-page-flex-expand {
+  flex: 2 1 100%;
+}
+
+h3 {
+  margin-block-start: 2em;
+}
+
+.page {
+  padding: 2em;
+}
+
+.dialog {
+  padding: 1.2em;
+}
+
+.profile-page {
+  // padding: 1.6em 1.6em 0 1.6em;
+}
+
+.feed-page {
+  padding: 1em 1em 1em 1em;
+}
+
+.no-lines {
+  border-left: 1px solid transparent !important;
+}
+
+.lines {
+  border-left: 1px solid rgba(0, 0, 0, 0.25) !important;
+  // border-left: 2px solid red !important;
+}
+
+.dark .lines {
+  border-left: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.thread-buttons {
+  border-top: 1px solid rgba(0, 0, 0, 0.25) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+.dark .thread-buttons {
+  border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.image-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.image-grid img {
+  display: block;
+  height: 400px;
+  object-fit: cover;
+  width: 400px;
+}
+
+.image-grid-item {
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+}
+
+.image-grid-item img {
+  height: 100%;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/* When changing the sidenav-content to flex, the toolbar does not render properly, so a minor hack is needed. */
+@media only screen and (max-width: 599px) {
+  body {
+    font-size: 16px;
+  }
+
+  .page {
+    padding: 0.8em;
+  }
+
+  .profile-page {
+    // padding: 0.8em 0.8em 0 0.8em;
+  }
+
+  .profile-page-header {
+    padding: 0 0.8em 0 0.8em;
+  }
+
+  .feed-page {
+    padding: 0.4em 0.4em 0.4em 0.4em;
+  }
+}
+
+a {
+  // color: rgb(206, 206, 206);
+  color: #c7b3ea !important;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #9c27b0 !important;
+  transition: text-decoration 250ms ease;
+  transition: color 250ms ease;
+}
+
+app-profile-actions {
+  display: inline;
+}
+
+/** Triggers scrolling if the vertical height is larger then horizontal for profile image popups and window size. */
+.mdc-dialog {
+  max-height: 100vh !important;
+}
+
+.mat-sidenav-content {
+  /* Disable scrolling on the content, we want it specific on child element */
+  // overflow: hidden !important;
+}
+
+/* Container for the actual content, which is our scrolling container. */
+.scrolling-content {
+  overscroll-behavior-y: contain;
+  // overflow-y: scroll;
+  overflow-y: overlay !important;
+  overflow-x: hidden;
+  // overflow: overlay !important;
+  // height: 300px;
+  // height: 100%;
+  // width: 100%;
+  // max-height: 300px;
+  //padding-bottom: 1em;
+  scroll-behavior: smooth;
+}
+
+// app-root {
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// app-root mat-toolbar {
+//   flex-grow: 1;
+// }
+
+.mat-drawer-inner-container {
+  overflow: overlay !important;
+}
+
+/* The container for main content. */
+// mat-sidenav-content {
+//   display: flex !important;
+//   flex-direction: column;
+//   overflow:hidden;
+//   height: 100%;
+// }
+
+// mat-sidenav-content > * {
+//   flex: 2 2 auto;
+// }
+
+// app-media-player {
+//   flex: 0 0 200px;
+// }
+
+/* Top element in main content, make it always appear on-top. */
+// mat-sidenav-content mat-toolbar {
+//   flex: 0 1 auto !important; /* When changing the sidenav-content to flex, the toolbar does not render properly, so a minor hack is needed. */
+//   height: 69px !important;
+// }
+
+/* When changing the sidenav-content to flex, the toolbar does not render properly, so a minor hack is needed. */
+@media only screen and (max-width: 599px) {
+  // mat-sidenav-content mat-toolbar {
+  //   flex: 0 1 auto !important;
+  //   height: 60px !important;
+  // }
+}
+
+.sidenav-left {
+  min-width: 200px;
+}
+
+.sidenav-right {
+  min-width: 320px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #595b5ca4;
+  // border-radius: 20px;
+  border-left: 6px solid transparent;
+  border-top: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a3a5a7c2;
+  border-left: 6px solid transparent;
+  border-top: 6px solid transparent;
+}
+
+.marginless {
+  margin: 0;
+}
+
+.root-event {
+  // margin-left: 3em;
+  // background-color: #a30770 !important;
+}
+
+.above-event {
+  // background-color: #303030 !important;
+  background-color: rgba(89, 91, 92, 0.6431372549);
+}
+
+.current-event {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  // margin-left: 2em;
+  background-color: transparent !important;
+  // border: 0 !important;
+}
+
+@media only screen and (max-width: 599px) {
+  .current-event {
+    margin-bottom: 0;
+    // margin-left: 1em;
+  }
+}
+
+.profile-button {
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  margin-right: 1em;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 0;
+  // padding: 1em;
+  text-decoration: none;
+  padding: 0;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.profile-button:hover {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+.profile-button-icon {
+  // margin-top: -1em;
+  // margin-left: -1em;
+  // font-size: 16px;
+  // font-size: 16px;
+  // height: auto !important;
+  // width: auto !important;
+}
+
+.events {
+  margin-top: 1em;
+  padding: 1em;
+  margin-bottom: 0;
+  border-radius: 10px !important;
+}
+
+.people {
+  padding: 1em;
+  margin-bottom: 0;
+  border-radius: 10px !important;
+}
+
+.circle.clickable:hover {
+  // background-color: #535353;
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+.people.clickable:hover {
+  // background-color: #535353;
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+// .events {
+//   background-color: #535353;
+//   cursor: pointer;
+// }
+
+.events.clickable:hover {
+  // background-color: #535353;
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+.noclick:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  // background-color: #424242;
+  cursor: default;
+}
+
+.events-header {
+  padding-top: 1em;
+  gap: 0.4em;
+  display: flex;
+  flex-direction: row;
+}
+
+.events-header app-event-header {
+  flex-grow: 2;
+}
+
+.events-header app-profile-actions {
+  width: 48px;
+}
+
+// .items {
+//   margin-top: 1em;
+//   padding: 1em;
+//   margin-bottom: 1em;
+//   background-color: #424242;
+//   border-radius: 10px;
+// }
+
+.options {
+  margin-bottom: 1em;
+}
+
+.ln-link {
+  text-decoration: none;
+}
+
+.ln-link:hover {
+}
+
+.profile-image {
+  border: 4px solid transparent;
+  object-fit: cover;
+  // padding-top: 3em;
+  // margin-top: 3em;
+  /* border: 1px solid; */
+}
+
+.profile-image-follow {
+  border: 4px solid transparent;
+}
+
+.muted {
+  text-decoration: line-through;
+}
+
+.profile-page-header {
+  padding: 0 1.6em 0 1.6em;
+  display: flex;
+  gap: 1em;
+}
+
+.profile-page-header-left {
+  flex: 0 1 auto;
+  // display: flex;
+}
+
+.profile-image-anchor {
+  padding-top: 1.4em;
+  margin-top: -6em;
+}
+
+.profile-page-header-middle {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 0.4em;
+}
+
+// .profile-page-header-right {
+//   width: 48px;
+// }
+
+.profile-button-container {
+  float: right;
+}
+
+// @media only screen and (max-width: 599px) {
+//   .profile-button-container {
+//     margin-bottom: 0.4em;
+//   }
+// }
+
+.options-field {
+  margin-right: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.event-header {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  grid-template-rows: 24px 1fr;
+  gap: 0 1em;
+  // column-gap: 1em;
+  grid-template-areas:
+    "icon name"
+    "icon date";
+}
+
+.event-header-list {
+}
+
+.event-header-icon {
+  display: inline-block;
+}
+
+.event-header-content {
+  margin-bottom: 1em;
+  // width: 100%;
+}
+
+.event-header-details {
+  display: flex;
+  flex-direction: row;
+  // display: grid;
+  // grid-template-columns: auto;
+  // grid-template-rows: auto;
+  margin-bottom: 1em;
+  // width: 100%;
+  align-items: flex-start;
+}
+
+.event-header-details > * {
+  flex: 0 0 auto;
+}
+
+.event-header a {
+  text-decoration: none;
+}
+
+.event-header a:hover {
+  text-decoration: underline;
+}
+
+.event-header .icon {
+  grid-area: icon;
+}
+
+.event-header .icon img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.profile-image-large {
+  object-fit: cover;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  // margin-top: -3em;
+}
+
+.opposite-link {
+  text-decoration: none !important;
+}
+
+.opposite-link:hover {
+  text-decoration: underline !important;
+}
+
+.profile-image-large:hover {
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 500ms ease;
+}
+
+@media only screen and (max-width: 599px) {
+  .profile-image-large {
+    width: 128px;
+    height: 128px;
+  }
+
+  .profile-image-anchor {
+    padding-top: 1em;
+    margin-top: -6em;
+  }
+
+  .profile-page-header {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .profile-image-anchor {
+    text-align: center;
+  }
+}
+
+.event-header .name {
+  grid-area: name;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-header .date {
+  grid-area: date;
+  // color: rgba(206, 206, 206, 0.618);
+  font-size: 0.8em;
+}
+
+.content {
+  padding: 0.2em 0.2em 0.2em 0.2em;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+.linebreaks {
+  white-space: pre-line;
+}
+
+.wrap {
+  overflow-wrap: break-word !important;
+}
+
+.more {
+  text-overflow: ellipsis !important;
+}
+
+.action-button {
+  float: right;
+  // margin-top: -0.4em;
+  // margin-right: -0.4em;
+}
+
+.action-button-icon {
+  // font-size: 18px;
+  // font-size: 16px;
+  // height: auto !important;
+  // width: auto !important;
+}
+
+.expand-button {
+  float: right;
+  margin-top: -1.2em;
+  margin-right: -0.4em;
+}
+
+.expand-button-icon {
+  font-size: 18px;
+  // font-size: 16px;
+  // height: auto !important;
+  // width: auto !important;
+}
+
+.directory-icon {
+  font-size: 10px;
+  height: auto !important;
+  width: auto !important;
+}
+
+.centered {
+  text-align: center;
+}
+
+.options-slider {
+  margin-right: 1em;
+}
+
+textarea,
+input,
+button,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.dimmed {
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.dark .dimmed {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+small {
+  font-size: 0.85em;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.dark small {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.content-item-label {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.dark .content-item-label {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.space {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.full-width-dialog {
+  min-width: 600px;
+}
+
+.hashtags {
+  font-size: 0.75em;
+  margin-top: 0.6em;
+}
+
+.input-full-width,
+.full-width {
+  width: 100% !important;
+}
+
+mat-card-footer {
+  padding: 16px;
+}
+
+.header-image {
+  background-image: url("/assets/profile.png");
+  background-size: cover;
+}
+
+.mat-mdc-card-avatar {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.profile-form {
+  min-width: 150px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  padding: 0.4em !important;
+}
+
+.show-more {
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.emoji-mart-scroll {
+  height: 205px !important;
+  padding: 0 !important;
+}
+
+.emoji-mart-emoji:hover:before {
+  top: 2px !important;
+  left: 4px !important;
+}
+
+@media only screen and (max-width: 599px) {
+  .full-width-dialog {
+    max-width: 100vw !important;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hide-small {
+    display: none !important;
+  }
+}
+
+.error {
+  color: rgb(219, 2, 2) !important;
+}
+
+@media only screen and (max-height: 200px) {
+  .sidenav {
+    display: none !important;
+  }
+}
+
+.new-post-small {
+  width: 56px !important;
+}
+
+.new-post-small img {
+  width: 56px !important;
+  left: 0px !important;
+  bottom: 0px !important;
+}
+
+.text {
+  white-space: pre-wrap;
+}
+
+.badge-card-button {
+  margin-right: 0.4em !important;
+  margin-bottom: 0.4em !important;
+}
+
+// :root {
+//   --theme-color: #000000;
+//   --contrast-color: #212121;
+//   --hover-contrast-color: red;
+//   --padding: 12px;
+//   --toolbar-height: calc(40px + 2 * var(--padding));
+//   --edited-demo-height: 60%;
+// }
+
+// This was a test to see if possible to use 'window-controls-overlay'.
+// @media all and (display-mode: window-controls-overlay) {
+//   .title-bar {
+//     background-color: #212121;
+//     position: fixed;
+//     left: env(titlebar-area-x, 0);
+//     top: env(titlebar-area-y, 0);
+//     height: env(titlebar-area-height, 0px);
+//     width: env(titlebar-area-width, 100%);
+//     z-index: 10000;
+//   }
+
+//   .title-bar {
+//     left: 0;
+//     top: 0;
+//     height: env(titlebar-area-height, 0px);
+//     width: 100%;
+//     z-index: 10000;
+//   }
+
+//   .title-bar-default {
+//     width: 100%;
+//     height: env(titlebar-area-height, 0px);
+//     -webkit-app-region: drag;
+//   }
+
+//   .sidenav-container,
+//   .sidenav-right,
+//   .sidenav {
+//     top: env(titlebar-area-height, 0px) !important;
+//   }
+// }
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel-viewport {
+  flex: 1 1 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.title-bar {
+  display: none;
+}
+
+@media (display-mode: window-controls-overlay) {
+  .title-bar {
+    -webkit-app-region: drag;
+    flex: 0 0 33px;
+    display: flex;
+    flex-direction: row;
+    background-color: #212121;
+    left: env(titlebar-area-x, 0);
+    top: env(titlebar-area-y, 0);
+    height: env(titlebar-area-height, 33px);
+    width: env(titlebar-area-width, 100%);
+    z-index: 10000;
+  }
+}
+
+textarea.noscrollbars {
+  overflow: hidden;
+}
+
+.autocomplete-option {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3em;
+}
+
+.autocomplete-image {
+  border-radius: 50%;
+  flex: 0 0 25px;
+}
+
+.autocomplete-name {
+  flex: 2 2 100%;
+}
+
+.autocomplete-meta {
+  flex: 1 1 auto;
+}
+
+.split-page {
+  display: flex;
+  flex-direction: row;
+  padding: 2em;
+  gap: 2em;
+}
+
+.primary-page {
+  flex-grow: 2;
+  flex-shrink: 1;
+  flex-basis: 70%;
+}
+
+.secondary-page {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 30%;
+}
+
+@media only screen and (max-width: 1500px) {
+  .split-page {
+    flex-direction: column;
+    padding: 0.8em;
+    gap: 0.8em;
+  }
+
+  .primary-page {
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 100%;
+  }
+
+  .secondary-page {
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 100%;
+  }
+}
+
+.card-background {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark .card-background {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+}

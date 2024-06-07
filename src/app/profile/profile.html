@@ -1,0 +1,102 @@
+<div class="" infiniteScroll (scrollAction)="navigation.showMore()">
+  <app-profile-header></app-profile-header>
+
+  <div class="page">
+    <mat-card>
+      <mat-card-content *ngIf="profile">
+        <p>
+          <button type="button" mat-stroked-button (click)="profileImageInput.click()">{{ 'Profile.PickProfileImage' | translate }}</button>
+          <input hidden (change)="onProfileFileSelected($event)" #profileImageInput type="file" />
+          <span class="file-name">
+            <!-- {{selectedProfileFile?.name}} -->
+          </span>
+
+          <button type="button" mat-stroked-button (click)="profileBannerInput.click()">{{ 'Profile.PickProfileBanner' | translate }}</button>
+          <input hidden (change)="onBannerFileSelected($event)" #profileBannerInput type="file" />
+          <span class="file-name">
+            <!-- {{selectedBannerFile?.name}} -->
+          </span>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>badge</mat-icon>
+            <mat-label>{{ 'Profile.DisplayName' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.display_name" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>alternate_email</mat-icon>
+            <mat-label>{{ 'Profile.Nickname' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.name" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>help_outline</mat-icon>
+            <mat-label>{{ 'Profile.About' | translate }}</mat-label>
+            <textarea matInput type="text" [(ngModel)]="profile.about" rows="3"></textarea>
+          </mat-form-field>
+        </p>
+        <!-- <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>image</mat-icon>
+            <mat-label>Profile Image</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.picture" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>image</mat-icon>
+            <mat-label>Profile Banner</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.banner" />
+          </mat-form-field>
+        </p> -->
+        <!-- <p>
+          <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+          <input hidden (change)="onFileSelected()" #fileInput type="file" id="file" />
+        </p> -->
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>how_to_reg</mat-icon>
+            <mat-label>{{ 'Profile.MailDomainIdentifier' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.nip05" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>public</mat-icon>
+            <mat-label>{{ 'Profile.Website' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.website" />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>currency_bitcoin</mat-icon>
+            <mat-label>{{ 'Profile.BitcoinPaymentLink' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.lud06" placeholder="LNURL..." />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="input-full-width">
+            <mat-icon matPrefix>currency_bitcoin</mat-icon>
+            <mat-label>{{ 'Profile.BitoinPaymenAlias' | translate }}</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.lud16" placeholder="user@domain" />
+          </mat-form-field>
+        </p>
+        <!-- <p>
+        <mat-form-field class="input-full-width">
+          <mat-icon matPrefix>currency_bitcoin</mat-icon>
+          <mat-label>Bitcoin Identity Identifier (LUD16)</mat-label>
+          <input matInput type="text" [(ngModel)]="profile.lud16" placeholder="satoshi@bitcoin.org" />
+        </mat-form-field>
+      </p> -->
+        <p>{{ 'Profile.LastUpdated' | translate }}: {{ profile.created_at | ago }}</p>
+      </mat-card-content>
+      <mat-card-footer align="end">
+        <button mat-raised-button (click)="cancelEdit()">{{ 'Profile.Cancel' | translate }}</button>&nbsp;
+        <button mat-raised-button color="primary" (click)="updateMetadata()">{{ 'Profile.Save' | translate }}</button>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+.event-image {
+  width: 100%;
+  max-width: 480px;
+  display: inline-block;
+  margin-top: 0.2em;
+}
+
+.event-images {
+  text-align: left;
+}
+
+.event-video {
+  width: 100%;
+  display: inline-block;
+  margin-top: 0.2em;
+  aspect-ratio: 16 / 9;
+}
+
+/* .animate {
+  animation: scale 1.5s both;
+}
+
+@keyframes scale {
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+} */
+
+.embed-iframe {
+  min-width: 300px;
+  min-height: 300px;
+}
+
+.events-videos {
+  text-align: left;
+}
+
+.reply-to {
+  margin-top: 0.2em;
+}
+
+.event-content {
+  overflow-wrap: break-word;
+  /* word-break: break-all; */
+  /* inline-size: min-content; */
+  /* overflow: hidden; */
+}
+
+.event-content-big {
+  font-size: 2.2em;
+}
+
+@media only screen and (max-width: 599px) {
+  .event-video {
+    width: 100vw !important;
+    height: 50vh !important;
+    margin-left: -1.6em;
+  }
+
+  .event-image {
+    width: 100vw !important;
+    margin-left: -1.6em;
+    max-width: max-content;
+  }
+}
+
+.meme {
+  max-width: 128px;
+}

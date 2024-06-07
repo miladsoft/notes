@@ -1,0 +1,46 @@
+.picker {
+  display: block;
+  z-index: 3;
+}
+
+.thread-buttons {
+  padding-left: 1em;
+  margin-left: 27px;
+  padding-bottom: 0.2em;
+  padding-top: 0.4em;
+}
+
+.toolbar-icon {
+  cursor: pointer;
+}
+
+.toolbar-icon:hover {
+  color: #9c27b0;
+}
+
+.reaction-icon {
+  font-size: 1.4em;
+  margin-right: 0.4em;
+}
+
+.reply-widget {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.reply-widget-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.reply-widget-middle {
+  flex: 1 2 auto;
+}
+
+.thread-buttons button {
+  margin-left: 0.4em;
+}
+
+.right-side {
+  float: right;
+}

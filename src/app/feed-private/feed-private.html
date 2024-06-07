@@ -1,0 +1,50 @@
+<div class="" infiniteScroll (scrollAction)="navigation.showMore()" *ngIf="ui.feedEventsView$ | async as events">
+  <!-- <mat-progress-bar *ngIf="events == null" mode="indeterminate"></mat-progress-bar>
+
+  <div class="page loading-container" *ngIf="!profileService.initialized">
+    We'll be right ready for you... wait a second or two.<br /><br /><br />
+    <mat-spinner class="loading"></mat-spinner>
+  </div>
+
+  <div class="page loading-container" *ngIf="profileService.initialized && events.length === 0 && hasFollowers">
+    Updating the user profiles and getting their recent notes... wait a few seconds.<br /><br /><br />
+    <mat-spinner class="loading"></mat-spinner>
+  </div> -->
+
+  <div class="feed-page">
+
+    <mat-button-toggle-group class="circle-selection" name="ingredients">
+      <mat-button-toggle [routerLink]="['/feed', circle.id]" [matTooltip]="circle.name" value="flour" *ngFor="let circle of circleService.circles">
+        <mat-icon matListItemIcon [style.color]="circle.color">trip_origin</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-accordion class="options">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Options</mat-panel-title>
+          <mat-panel-description>{{ activeOptions() }}</mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- <p>
+          <mat-slide-toggle class="options-slider" [(ngModel)]="options.values.flatfeed" (ngModelChange)="optionsUpdated()">Flat Feed (turn off threads)</mat-slide-toggle>
+          <mat-slide-toggle class="options-slider" [(ngModel)]="options.values.ascending" (ngModelChange)="optionsUpdated()">Oldest first</mat-slide-toggle>
+          <mat-slide-toggle class="options-slider" [(ngModel)]="options.values.paused">Pause feed</mat-slide-toggle>
+          <mat-slide-toggle class="options-slider" [(ngModel)]="options.values.hideSpam" (ngModelChange)="optionsUpdated()">Hide spam</mat-slide-toggle>
+          <mat-slide-toggle class="options-slider" [(ngModel)]="options.values.hideInvoice" (ngModelChange)="optionsUpdated()">Hide LN invoices</mat-slide-toggle>
+        </p> -->
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-card class="events clickable" (click)="navigation.openEvent($event, event)" *ngFor="let event of events; trackBy: trackByFn">
+      <div class="events-header">
+        <app-event-header [pubkey]="event.pubkey"><span class="event-date" matTooltipPosition="below">{{ event.created_at | ago }}</span> <app-directory-icon [pubkey]="event.pubkey"></app-directory-icon></app-event-header>
+        <app-event-actions [event]="event"></app-event-actions>
+      </div>
+      <app-content [event]="event"></app-content>
+    </mat-card>
+
+    <div class="show-more centered">
+      <button mat-button (click)="showMore()">Show more...</button>
+    </div>
+  </div>
+</div>
