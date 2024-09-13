@@ -297,9 +297,19 @@ export class SignerService {
     }
 
     async decryptWithPrivateKey(pubkey: string, ciphertext: string): Promise<string> {
-        let privateKey = this.getPrivateKey()
-        return await nip04.decrypt(privateKey, pubkey, ciphertext).catch((error) => {
-            return "*Failed to Decrypted Content*";
-        });
-    }
+      try {
+          // Get the stored private key in hex format
+          let privateKey = this.getPrivateKey();
+
+          // Ensure the private key is in Uint8Array format
+          const privateKeyUint8Array = new Uint8Array(Buffer.from(privateKey, 'hex'));
+
+          // Decrypt the message using the private key and public key
+          return await nip04.decrypt(privateKeyUint8Array, pubkey, ciphertext);
+      } catch (error) {
+          console.error("Error during decryption: ", error);
+          return "*Failed to Decrypted Content*";
+      }
+  }
+
 }

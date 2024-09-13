@@ -41,6 +41,17 @@ export class WalletComponent implements OnInit {
     ) {
         const nwcURI = this.signerService.getNostrWalletConnectURI()
         this.nwc = new webln.NWC({ nostrWalletConnectUrl: nwcURI });
+
+
+
+        const secretKey = this.signerService.getPrivateKey(); // Make sure secret key is retrieved
+        if (secretKey) {
+            this.nwc = new webln.NWC({ nostrWalletConnectUrl: nwcURI, secret: secretKey }); // Pass the secret key
+        } else {
+            console.error("Missing secret key for NWC.");
+            // Handle the case where the secret key is missing
+        }
+
     }
 
     ngOnInit(): void {
@@ -67,21 +78,40 @@ export class WalletComponent implements OnInit {
     }
 
     async receive(): Promise<void> {
-        // this._bottomSheet.open();
-        const ok = await this.nwc.makeInvoice({
-            amount: Number(this.currentInput), // in sats
-            defaultMemo: "notes lightning request",
-        });
-        console.log(ok);
-        this.paymentRequest = ok
-        console.log(this.paymentRequest.paymentRequest);
-        this._bottomSheet.open(PaymentRequestComponent, {
-            data: {
-                paymentRequest: this.paymentRequest.paymentRequest,
-                username: this.username
-            }
-        });
-    }
+      try {
+          // Initialize NWC without passing the private key directly
+          const nwc = new webln.NWC({
+              nostrWalletConnectUrl: this.signerService.getNostrWalletConnectURI(),
+          });
+
+          // Enable NWC (this ensures that the client is properly connected and ready)
+          await nwc.enable();
+
+          // Create a Lightning invoice
+          const ok = await nwc.makeInvoice({
+              amount: Number(this.currentInput), // in sats
+              defaultMemo: "notes lightning request",
+          });
+
+          console.log(ok);
+          this.paymentRequest = ok;
+          console.log(this.paymentRequest.paymentRequest);
+
+          // Open the bottom sheet with the payment request
+          this._bottomSheet.open(PaymentRequestComponent, {
+              data: {
+                  paymentRequest: this.paymentRequest.paymentRequest,
+                  username: this.username,
+              }
+          });
+
+      } catch (error) {
+          console.error("Error creating invoice: ", error);
+          this.error = `Failed to create invoice: ${error.message}`;
+      }
+  }
+
+
 
     send(){
         this._bottomSheet.open(SendPaymentComponent, {
