@@ -125,12 +125,8 @@ export class SignerService {
         if (relays.length === 0 || relays[0] === "") {
             relays = [
                 "wss://relay.damus.io/",
-                "wss://nostr.fmt.wiz.biz/",
-                "wss://relay.nostr.band/",
-                "wss://relay.snort.social/",
-                "wss://nostr.mom",
-                "wss://relayable.org",
-                "wss://purplepag.es",
+                "wss://relay.angor.io/",
+                "wss://relay2.angor.io/"
            ]
         }
         return relays
@@ -218,34 +214,29 @@ export class SignerService {
     handleLoginWithNsec(nsec: string) {
       let privateKey: string;
       try {
-          // Decode the nsec using nip19
-          const decoded = nip19.decode(nsec);
-          privateKey = decoded.data.toString();  // Decode and convert to string
-      } catch (e) {
-          console.error("Invalid nsec:", e);
-          return false;
-      }
+          // Decode nsec to get the private key in hex format
+          privateKey = nip19.decode(nsec).data as string;
 
-      try {
-          // Convert the private key to Uint8Array (assuming it's hexadecimal)
-          const privateKeyUint8Array = Uint8Array.from(Buffer.from(privateKey, 'hex'));
+          // Ensure the private key is a 32-byte Uint8Array
+          const privateKeyUint8Array = new Uint8Array(Buffer.from(privateKey, 'hex'));
 
-          // Get the public key from the private key
-          const pubkey = getPublicKey(privateKeyUint8Array);
+          // Get public key using the private key in Uint8Array format
+          let pubkey = getPublicKey(privateKeyUint8Array);
 
-          // Save the private and public keys to the session
+          // Save the private and public keys in the session
           this.savePrivateKeyToSession(privateKey);
           this.savePublicKeyToSession(pubkey);
 
-          console.log("Public Key:", this.getPublicKey());
-          console.log("Private Key:", this.getPrivateKey());
+          console.log("Public Key: ", this.getPublicKey());
+          console.log("Private Key: ", this.getPrivateKey());
 
           return true;
       } catch (e) {
-          console.error("Error during key handling:", e);
+          console.error("Error during key handling: ", e);
           return false;
       }
   }
+
 
 
     usingNostrBrowserExtension() {

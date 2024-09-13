@@ -29,8 +29,7 @@ export class LoginComponent {
     private signerService: SignerService,
     private nostrService: NostrService
   ) {
-    // بررسی اگر کاربر قبلاً وارد شده است
-    if (this.signerService.getPublicKey() !== "") {
+     if (this.signerService.getPublicKey() !== "") {
       this.openSnackBar("You are already signed in!", "dismiss");
       this.router.navigate(["/feed"]);
     }

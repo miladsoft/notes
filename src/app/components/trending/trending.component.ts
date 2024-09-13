@@ -55,21 +55,28 @@ export class TrendingComponent implements OnInit {
     }
 
     getTrendingProfiles() {
-        const response = this.apiService.getTrendingProfiles();
-        response.subscribe(response => {
-            let trendingUsers = [];
-            const profiles = response['profiles'];
-            profiles.forEach(item => {
-                const profile = item['profile'];
-                const created_at = profile['created_at'];
-                const pubkey = profile['pubkey'];
-                const content = profile['content'];
-                const user = new User(content, created_at, pubkey)
-                trendingUsers.push(user);
-            });
-            this.joinUsersWithNostrUsers(trendingUsers)
-        });
-    }
+      const response = this.apiService.getTrendingProfiles();
+      response.subscribe({
+          next: (response) => {
+              let trendingUsers = [];
+              const profiles = response['profiles'];
+              profiles.forEach(item => {
+                  const profile = item['profile'];
+                  const created_at = profile['created_at'];
+                  const pubkey = profile['pubkey'];
+                  const content = profile['content'];
+                  const user = new User(content, created_at, pubkey)
+                  trendingUsers.push(user);
+              });
+              this.joinUsersWithNostrUsers(trendingUsers);
+          },
+          error: (err) => {
+              console.error('Error fetching trending profiles:', err);
+              this.loading = false;
+          }
+      });
+  }
+
 
     async joinUsersWithNostrUsers(trendingUsers: User[]) {
         let pubkeys = [];

@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/header/header.component';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
+
+// External Modules
 import { QRCodeModule } from 'angularx-qrcode';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpCache, withHttpCacheInterceptor } from '@ngneat/cashew';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
-// Material
+// Material Modules
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
@@ -32,9 +31,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+// Components
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { PostComponent } from './components/post/post.component';
@@ -42,71 +45,58 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
 import { RelayComponent } from './components/relay/relay.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
-import { AppRoutingModule } from './app-routing.module';
 import { UsersComponent } from './components/users/users.component';
 import { MessengerComponent } from './components/messenger/messenger.component';
 import { UserComponent } from './components/user/user.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { Kind1Component } from './components/kind1/kind1.component';
 import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
-import { UsernamePipe } from './pipes/username.pipe';
 import { SearchComponent } from './components/search/search.component';
-import { NpubPipe } from './pipes/npub.pipe';
-import { HashtagPipe } from './pipes/hashtag.pipe';
-import { SafePipe } from './pipes/safe.pipe';
-import { TruncatePipe } from './pipes/truncate.pipe';
 import { FollowingComponent } from './components/following/following.component';
 import { PostDetailComponent } from './components/post-detail/post-detail.component';
-import { NeventPipe } from './pipes/nevent.pipe';
-import { EllipsisPipe } from './pipes/ellipsis.pipe';
 import { ContactListComponent } from './components/contact-list/contact-list.component';
-import { HumantimePipe } from './pipes/humantime.pipe';
 import { FollowComponent } from './components/follow/follow.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { HashtagFeedComponent } from './components/hashtag-feed/hashtag-feed.component';
 import { ZapComponent } from './components/zap/zap.component';
-
-
-// indexed db
-import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
 import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationComponent } from './components/notification/notification.component';
-
-// webln and nostr window
-import { WebLNProvider } from '@webbtc/webln-types';
-import { NostrWindow } from './types/nostr';
 import { ListedUserComponent } from './components/listed-user/listed-user.component';
 import { TrendingComponent } from './components/trending/trending.component';
 import { ZapFeedComponent } from './components/zap-feed/zap-feed.component';
 import { HomeFeedComponent } from './components/home-feed/home-feed.component';
 import { UserBottomSheetComponent } from './components/user-bottom-sheet/user-bottom-sheet.component';
 import { WalletComponent } from './components/wallet/wallet.component';
-import { KeyboardPipe } from './pipes/keyboard.pipe';
 import { PaymentRequestComponent } from './components/payment-request/payment-request.component';
 import { SendPaymentComponent } from './components/send-payment/send-payment.component';
 import { PostQuickComponent } from './components/post-quick/post-quick.component';
-import { HashtagQuickComponent } from './compontents/hashtag-quick/hashtag-quick.component';
-import { MessagesListComponent } from './components/messages-list/messages-list.component';
+ import { MessagesListComponent } from './components/messages-list/messages-list.component';
 import { PayInvoiceComponent } from './components/pay-invoice/pay-invoice.component';
 
-// Ahead of time compiles requires an exported function for factories
-export function migrationFactory() {
-  // The animal table was added with version 2 but none of the existing tables or data needed
-  // to be modified so a migrator for that version is not included.
-  return {
-    1: (db, transaction) => {
-      const store = transaction.objectStore('users');
-      store.createIndex('users', 'users', { unique: false });
-    },
-    3: (db, transaction) => {
-      const store = transaction.objectStore('notifications');
-      store.createIndex('notifications', 'notifications', { unique: false });
-    }
-  };
-}
+// Pipes
+import { UsernamePipe } from './pipes/username.pipe';
+import { NpubPipe } from './pipes/npub.pipe';
+import { HashtagPipe } from './pipes/hashtag.pipe';
+import { SafePipe } from './pipes/safe.pipe';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { NeventPipe } from './pipes/nevent.pipe';
+import { EllipsisPipe } from './pipes/ellipsis.pipe';
+import { HumantimePipe } from './pipes/humantime.pipe';
+import { KeyboardPipe } from './pipes/keyboard.pipe';
 
+// IndexedDB
+import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
 
+// WebLN and Nostr types
+import { WebLNProvider } from '@webbtc/webln-types';
+import { NostrWindow } from './types/nostr';
+
+// Routing
+import { AppRoutingModule } from './app-routing.module';
+import { HashtagQuickComponent } from './compontents/hashtag-quick/hashtag-quick.component';
+
+// Database configuration
 const dbConfig: DBConfig = {
   name: 'notesdb',
   version: 3,
@@ -153,11 +143,22 @@ const dbConfig: DBConfig = {
         { name: 'description', keypath: 'description', options: { unique: false } },
         { name: 'fromNow', keypath: 'fromNow', options: { unique: false } },
         { name: 'content', keypath: 'content', options: { unique: false } },
-        { name: 'satAmount', keypath: 'satAmount', options: { unique: false } },
+        { name: 'satAmount', keypath: 'satAmount', options: { unique: false } }
       ]
     }
   ],
-  migrationFactory
+  migrationFactory() {
+    return {
+      1: (db, transaction) => {
+        const store = transaction.objectStore('users');
+        store.createIndex('users', 'users', { unique: false });
+      },
+      3: (db, transaction) => {
+        const store = transaction.objectStore('notifications');
+        store.createIndex('notifications', 'notifications', { unique: false });
+      }
+    };
+  }
 };
 
 @NgModule({
@@ -177,18 +178,10 @@ const dbConfig: DBConfig = {
     UserDetailComponent,
     Kind1Component,
     ProfileEditComponent,
-    UsernamePipe,
     SearchComponent,
-    NpubPipe,
-    HashtagPipe,
-    SafePipe,
-    TruncatePipe,
     FollowingComponent,
     PostDetailComponent,
-    NeventPipe,
-    EllipsisPipe,
     ContactListComponent,
-    HumantimePipe,
     FollowComponent,
     LoadingComponent,
     HashtagFeedComponent,
@@ -202,29 +195,42 @@ const dbConfig: DBConfig = {
     HomeFeedComponent,
     UserBottomSheetComponent,
     WalletComponent,
-    KeyboardPipe,
     PaymentRequestComponent,
     SendPaymentComponent,
     PostQuickComponent,
     HashtagQuickComponent,
     MessagesListComponent,
     PayInvoiceComponent,
+    UsernamePipe,
+    NpubPipe,
+    HashtagPipe,
+    SafePipe,
+    TruncatePipe,
+    NeventPipe,
+    EllipsisPipe,
+    HumantimePipe,
+    KeyboardPipe
   ],
-  bootstrap: [AppComponent], imports: [BrowserModule,
+  imports: [
+
+    HttpClientModule,
+    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatIconModule,
+    ReactiveFormsModule,
+    QRCodeModule,
+    InfiniteScrollModule,
+    ZXingScannerModule,
+    MatDialogModule,
     MatCheckboxModule,
     MatSliderModule,
     MatToolbarModule,
     MatMenuModule,
     MatCardModule,
     MatInputModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatChipsModule,
-    MatButtonModule,
     MatBadgeModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
     MatDividerModule,
     MatListModule,
     MatExpansionModule,
@@ -233,29 +239,22 @@ const dbConfig: DBConfig = {
     MatIconModule,
     MatProgressBarModule,
     MatGridListModule,
+    MatChipsModule,
     FlexLayoutModule,
     MatBottomSheetModule,
     MatSnackBarModule,
     AppRoutingModule,
-    QRCodeModule,
-    InfiniteScrollModule,
-    NgxIndexedDBModule.forRoot(dbConfig),
-    ReactiveFormsModule,
-    ZXingScannerModule],
-
+    NgxIndexedDBModule.forRoot(dbConfig)
+  ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    provideHttpClient(withInterceptorsFromDi()), // Add this
-    provideHttpCache(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useFactory: withHttpCacheInterceptor, // Use factory instead of useClass
-      multi: true
-    }
-  ]
+    provideHttpClient(withInterceptorsFromDi()), // Interceptors
+    provideHttpCache()
+
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 
 declare global {
   interface Window {

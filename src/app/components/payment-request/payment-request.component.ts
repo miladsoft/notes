@@ -39,28 +39,54 @@ export class PaymentRequestComponent implements AfterViewInit {
     }
 
     async checkPaymentComplete(): Promise<void> {
-        this.loopCounter = 0;
-        const nwcURI = this.signerService.getNostrWalletConnectURI()
-        const nwc = new webln.NWC({ nostrWalletConnectUrl: nwcURI });
-        const paymentRequest = this.paymentRequest;
-        await nwc.enable();
-        let counter = 0;
-        // checks for payment every 7 seconds -- for 15 tries.
-        const intervalId = setInterval(async () => {
-            counter++;
-            if (counter >= 15) {
-                clearInterval(intervalId);
-            }
-            const response = await nwc.lookupInvoice({
-              paymentRequest: paymentRequest  // Use paymentRequest instead of invoice
-            });
-            if (response.paid === true) {
-                clearInterval(intervalId);
-                console.log("PAID");
-                this.setInvoicePaid();
-            }
-        }, 7000);
-    }
+      this.loopCounter = 0;
+
+      // Get NWC URI and validate the URL before proceeding
+      const nwcURI = this.signerService.getNostrWalletConnectURI();
+      if (!nwcURI || !this.isValidUrl(nwcURI)) {
+          console.error('Invalid NWC URI:', nwcURI);
+          return;
+      }
+
+      const nwc = new webln.NWC({ nostrWalletConnectUrl: nwcURI });
+      const paymentRequest = this.paymentRequest;
+
+      // Enable NWC
+      await nwc.enable();
+      let counter = 0;
+
+      // Check payment status every 7 seconds, for 15 tries
+      const intervalId = setInterval(async () => {
+          counter++;
+          if (counter >= 15) {
+              clearInterval(intervalId);
+          }
+
+          try {
+              const response = await nwc.lookupInvoice({
+                  paymentRequest: paymentRequest // Correct usage of paymentRequest
+              });
+
+              if (response.paid === true) {
+                  clearInterval(intervalId);
+                  console.log("PAID");
+                  this.setInvoicePaid();
+              }
+          } catch (error) {
+              console.error('Error checking payment status:', error);
+          }
+      }, 7000);
+  }
+
+  // Utility function to validate URLs
+  isValidUrl(url: string): boolean {
+      try {
+          new URL(url);
+          return true;
+      } catch (e) {
+          return false;
+      }
+  }
 
     setInvoicePaid() {
         this.invoicePaid = true;
