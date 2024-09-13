@@ -25,7 +25,7 @@ export class HomeFeedComponent implements OnInit {
         private _bottomSheet: MatBottomSheet
     ) {
         let baseTimeDiff = 120;
-        let since = 120;
+        let since = 86400;
         this.paginator = new Paginator(0, since, baseTimeDiff=baseTimeDiff);
     }
 
@@ -115,7 +115,7 @@ export class HomeFeedComponent implements OnInit {
             }
         }
         let likeCounts: {[id: string]: number} = {}
-        
+
         for (const like of likes) {
             let noteId = null;
             like.tags.slice().reverse().forEach(x => {

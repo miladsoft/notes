@@ -615,7 +615,7 @@ export class NostrService {
         // check for zaps
         // check for mentions?
         // check for new followers
-        const zapFilter: Filter = {kinds: [9735], "#p": [pubkey]}
+        const zapFilter: Filter = {kinds: [1,3,9735], "#p": [pubkey]}
 
         const response = await this.poolList([zapFilter])
         let notifications: Zap[] = [];

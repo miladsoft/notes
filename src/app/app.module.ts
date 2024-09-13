@@ -94,7 +94,7 @@ import { NostrWindow } from './types/nostr';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
-import { HashtagQuickComponent } from './compontents/hashtag-quick/hashtag-quick.component';
+import { HashtagQuickComponent } from './components/hashtag-quick/hashtag-quick.component';
 
 // Database configuration
 const dbConfig: DBConfig = {

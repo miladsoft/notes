@@ -20,7 +20,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { UserBottomSheetComponent } from '../user-bottom-sheet/user-bottom-sheet.component';
 import { nip19 } from 'nostr-tools';
 import { PostQuickComponent } from '../post-quick/post-quick.component';
-import { HashtagQuickComponent } from 'src/app/compontents/hashtag-quick/hashtag-quick.component';
+import { HashtagQuickComponent } from 'src/app/components/hashtag-quick/hashtag-quick.component';
 import { hexToBytes } from '@noble/hashes/utils';
 
 @Component({
