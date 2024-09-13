@@ -13,6 +13,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "bech32",
+              "bn.js",
+              "buffer",
+              "qrcode",
+              "dayjs",
+              "dayjs/plugin/relativeTime"
+            ],
             "outputPath": "dist/notes",
             "index": "src/index.html",
             "main": "src/main.ts",

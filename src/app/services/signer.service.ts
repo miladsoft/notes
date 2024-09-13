@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UnsignedEvent, nip19, getPublicKey, nip04, Event } from 'nostr-tools';
+import { Buffer } from 'buffer';
 
 
 @Injectable({
@@ -38,13 +39,14 @@ export class SignerService {
     }
 
     nsec() {
-        if (this.usingPrivateKey()) {
-            let privateKey = this.getPrivateKey();
-            const privateKeyUint8Array = Uint8Array.from(Buffer.from(privateKey, 'hex'));
-            return nip19.nsecEncode(privateKeyUint8Array);
-        }
-        return "";
-    }
+      if (this.usingPrivateKey()) {
+          let privateKey = this.getPrivateKey();
+          const privateKeyUint8Array = Uint8Array.from(Buffer.from(privateKey, 'hex'));
+          return nip19.nsecEncode(privateKeyUint8Array);
+      }
+      return "";
+  }
+
 
     pubkey(npub: string) {
         return nip19.decode(npub).data.toString();
@@ -214,22 +216,37 @@ export class SignerService {
     }
 
     handleLoginWithNsec(nsec: string) {
-        let privateKey: string;
-        try {
-            privateKey = nip19.decode(nsec).data.toString();
-        } catch (e) {
-            return false;
-        }
+      let privateKey: string;
+      try {
+          // Decode the nsec using nip19
+          const decoded = nip19.decode(nsec);
+          privateKey = decoded.data.toString();  // Decode and convert to string
+      } catch (e) {
+          console.error("Invalid nsec:", e);
+          return false;
+      }
 
-        // Assuming the private key is stored in hexadecimal format
-        const privateKeyUint8Array = Uint8Array.from(Buffer.from(privateKey, 'hex'));
-        let pubkey = getPublicKey(privateKeyUint8Array);
-        this.savePrivateKeyToSession(privateKey);
-        this.savePublicKeyToSession(pubkey);
-        console.log(this.getPublicKey())
-        console.log(this.getPrivateKey())
-        return true;
-    }
+      try {
+          // Convert the private key to Uint8Array (assuming it's hexadecimal)
+          const privateKeyUint8Array = Uint8Array.from(Buffer.from(privateKey, 'hex'));
+
+          // Get the public key from the private key
+          const pubkey = getPublicKey(privateKeyUint8Array);
+
+          // Save the private and public keys to the session
+          this.savePrivateKeyToSession(privateKey);
+          this.savePublicKeyToSession(pubkey);
+
+          console.log("Public Key:", this.getPublicKey());
+          console.log("Private Key:", this.getPrivateKey());
+
+          return true;
+      } catch (e) {
+          console.error("Error during key handling:", e);
+          return false;
+      }
+  }
+
 
     usingNostrBrowserExtension() {
         if (this.usingPrivateKey()) {

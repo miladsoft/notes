@@ -52,7 +52,7 @@ export class PaymentRequestComponent implements AfterViewInit {
                 clearInterval(intervalId);
             }
             const response = await nwc.lookupInvoice({
-                invoice: paymentRequest
+              paymentRequest: paymentRequest  // Use paymentRequest instead of invoice
             });
             if (response.paid === true) {
                 clearInterval(intervalId);

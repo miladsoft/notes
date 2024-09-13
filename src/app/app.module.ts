@@ -5,16 +5,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {APP_BASE_HREF} from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common';
 import { QRCodeModule } from 'angularx-qrcode';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { provideHttpCache, withHttpCacheInterceptor } from '@ngneat/cashew';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 // Material
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -66,6 +66,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { HashtagFeedComponent } from './components/hashtag-feed/hashtag-feed.component';
 import { ZapComponent } from './components/zap/zap.component';
 
+
 // indexed db
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db';
 import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
@@ -91,162 +92,174 @@ import { PayInvoiceComponent } from './components/pay-invoice/pay-invoice.compon
 
 // Ahead of time compiles requires an exported function for factories
 export function migrationFactory() {
-    // The animal table was added with version 2 but none of the existing tables or data needed
-    // to be modified so a migrator for that version is not included.
-    return {
-      1: (db, transaction) => {
-        const store = transaction.objectStore('users');
-        store.createIndex('users', 'users', { unique: false });
-      },
-      3: (db, transaction) => {
-        const store = transaction.objectStore('notifications');
-        store.createIndex('notifications', 'notifications', { unique: false });
-      }
-    };
+  // The animal table was added with version 2 but none of the existing tables or data needed
+  // to be modified so a migrator for that version is not included.
+  return {
+    1: (db, transaction) => {
+      const store = transaction.objectStore('users');
+      store.createIndex('users', 'users', { unique: false });
+    },
+    3: (db, transaction) => {
+      const store = transaction.objectStore('notifications');
+      store.createIndex('notifications', 'notifications', { unique: false });
+    }
+  };
 }
 
 
-const dbConfig: DBConfig  = {
-    name: 'notesdb',
-    version: 3,
-    objectStoresMeta: [
-        {
-            store: 'users',
-            storeConfig: { keyPath: 'id', autoIncrement: true },
-            storeSchema: [
-                { name: 'name', keypath: 'name', options: { unique: false } },
-                { name: 'username', keypath: 'username', options: { unique: false } },
-                { name: 'displayName', keypath: 'displayName', options: { unique: false } },
-                { name: 'website', keypath: 'website', options: { unique: false } },
-                { name: 'about', keypath: 'about', options: { unique: false } },
-                { name: 'picture', keypath: 'picture', options: { unique: false } },
-                { name: 'banner', keypath: 'banner', options: { unique: false } },
-                { name: 'lud06', keypath: 'lud06', options: { unique: false } },
-                { name: 'lud16', keypath: 'lud16', options: { unique: false } },
-                { name: 'nip05', keypath: 'nip05', options: { unique: false } },
-                { name: 'pubkey', keypath: 'pubkey', options: { unique: true } },
-                { name: 'npub', keypath: 'npub', options: { unique: true } },
-                { name: 'createdAt', keypath: 'createdAt', options: { unique: false } },
-                { name: 'apiKey', keypath: 'apiKey', options: { unique: false } },
-                { name: 'following', keypath: 'following', options: {unique: false}}
-            ]
-        },
-        {
-            store: 'notifications',
-            storeConfig: { keyPath: 'id', autoIncrement: true},
-            storeSchema: [
-                { name: 'kind', keypath: 'kind', options: {unique: false} },
-                { name: 'walletPubkey', keypath: 'walletPubkey', options: {unique: false} },
-                { name: 'walletNpub', keypath: 'walletNpub', options: {unique: false} },
-                { name: 'createdAt', keypath: 'createdAt', options: {unique: false} },
-                { name: 'username', keypath: 'username', options: {unique: false} },
-                { name: 'picture', keypath: 'picture', options: {unique: false} },
-                { name: 'receiverPubKey', keypath: 'receiverPubKey', options: {unique: false} },
-                { name: 'receiverNpub', keypath: 'receiverNpub', options: {unique: false} },
-                { name: 'receiverEventId', keypath: 'receiverEventId', options: {unique: false} },
-                { name: 'senderPubkey', keypath: 'senderPubkey', options: {unique: false} },
-                { name: 'senderNpub', keypath: 'senderNpub', options: {unique: false} },
-                { name: 'senderMessage', keypath: 'senderMessage', options: {unique: false} },
-                { name: 'bolt11', keypath: 'bolt11', options: {unique: false} },
-                { name: 'preImage', keypath: 'preImage', options: {unique: false} },
-                { name: 'description', keypath: 'description', options: {unique: false} },
-                { name: 'fromNow', keypath: 'fromNow', options: {unique: false} },
-                { name: 'content', keypath: 'content', options: {unique: false} },
-                { name: 'satAmount', keypath: 'satAmount', options: {unique: false}},
-            ]
-        }
-    ],
-    migrationFactory
+const dbConfig: DBConfig = {
+  name: 'notesdb',
+  version: 3,
+  objectStoresMeta: [
+    {
+      store: 'users',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: 'name', keypath: 'name', options: { unique: false } },
+        { name: 'username', keypath: 'username', options: { unique: false } },
+        { name: 'displayName', keypath: 'displayName', options: { unique: false } },
+        { name: 'website', keypath: 'website', options: { unique: false } },
+        { name: 'about', keypath: 'about', options: { unique: false } },
+        { name: 'picture', keypath: 'picture', options: { unique: false } },
+        { name: 'banner', keypath: 'banner', options: { unique: false } },
+        { name: 'lud06', keypath: 'lud06', options: { unique: false } },
+        { name: 'lud16', keypath: 'lud16', options: { unique: false } },
+        { name: 'nip05', keypath: 'nip05', options: { unique: false } },
+        { name: 'pubkey', keypath: 'pubkey', options: { unique: true } },
+        { name: 'npub', keypath: 'npub', options: { unique: true } },
+        { name: 'createdAt', keypath: 'createdAt', options: { unique: false } },
+        { name: 'apiKey', keypath: 'apiKey', options: { unique: false } },
+        { name: 'following', keypath: 'following', options: { unique: false } }
+      ]
+    },
+    {
+      store: 'notifications',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: 'kind', keypath: 'kind', options: { unique: false } },
+        { name: 'walletPubkey', keypath: 'walletPubkey', options: { unique: false } },
+        { name: 'walletNpub', keypath: 'walletNpub', options: { unique: false } },
+        { name: 'createdAt', keypath: 'createdAt', options: { unique: false } },
+        { name: 'username', keypath: 'username', options: { unique: false } },
+        { name: 'picture', keypath: 'picture', options: { unique: false } },
+        { name: 'receiverPubKey', keypath: 'receiverPubKey', options: { unique: false } },
+        { name: 'receiverNpub', keypath: 'receiverNpub', options: { unique: false } },
+        { name: 'receiverEventId', keypath: 'receiverEventId', options: { unique: false } },
+        { name: 'senderPubkey', keypath: 'senderPubkey', options: { unique: false } },
+        { name: 'senderNpub', keypath: 'senderNpub', options: { unique: false } },
+        { name: 'senderMessage', keypath: 'senderMessage', options: { unique: false } },
+        { name: 'bolt11', keypath: 'bolt11', options: { unique: false } },
+        { name: 'preImage', keypath: 'preImage', options: { unique: false } },
+        { name: 'description', keypath: 'description', options: { unique: false } },
+        { name: 'fromNow', keypath: 'fromNow', options: { unique: false } },
+        { name: 'content', keypath: 'content', options: { unique: false } },
+        { name: 'satAmount', keypath: 'satAmount', options: { unique: false } },
+      ]
+    }
+  ],
+  migrationFactory
 };
 
-@NgModule({ declarations: [
-        AppComponent,
-        HeaderComponent,
-        SidebarComponent,
-        FeedComponent,
-        PostComponent,
-        SettingsComponent,
-        LoginComponent,
-        RelayComponent,
-        CreateEventComponent,
-        UsersComponent,
-        MessengerComponent,
-        UserComponent,
-        UserDetailComponent,
-        Kind1Component,
-        ProfileEditComponent,
-        UsernamePipe,
-        SearchComponent,
-        NpubPipe,
-        HashtagPipe,
-        SafePipe,
-        TruncatePipe,
-        FollowingComponent,
-        PostDetailComponent,
-        NeventPipe,
-        EllipsisPipe,
-        ContactListComponent,
-        HumantimePipe,
-        FollowComponent,
-        LoadingComponent,
-        HashtagFeedComponent,
-        ZapComponent,
-        ImageDialogComponent,
-        NotificationsComponent,
-        NotificationComponent,
-        ListedUserComponent,
-        TrendingComponent,
-        ZapFeedComponent,
-        HomeFeedComponent,
-        UserBottomSheetComponent,
-        WalletComponent,
-        KeyboardPipe,
-        PaymentRequestComponent,
-        SendPaymentComponent,
-        PostQuickComponent,
-        HashtagQuickComponent,
-        MessagesListComponent,
-        PayInvoiceComponent,
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpCacheInterceptorModule.forRoot(),
-        MatIconModule,
-        MatCheckboxModule,
-        MatSliderModule,
-        MatToolbarModule,
-        MatMenuModule,
-        MatCardModule,
-        MatInputModule,
-        MatProgressSpinnerModule,
-        MatDialogModule,
-        MatChipsModule,
-        MatButtonModule,
-        MatBadgeModule,
-        MatDividerModule,
-        MatListModule,
-        MatExpansionModule,
-        MatTabsModule,
-        MatSelectModule,
-        MatIconModule,
-        MatProgressBarModule,
-        MatGridListModule,
-        FlexLayoutModule,
-        MatBottomSheetModule,
-        MatSnackBarModule,
-        AppRoutingModule,
-        QRCodeModule,
-        InfiniteScrollModule,
-        NgxIndexedDBModule.forRoot(dbConfig),
-        ReactiveFormsModule,
-        ZXingScannerModule], providers: [{ provide: APP_BASE_HREF, useValue: '/' }, provideHttpClient(withInterceptorsFromDi())] })
+@NgModule({
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    SidebarComponent,
+    FeedComponent,
+    PostComponent,
+    SettingsComponent,
+    LoginComponent,
+    RelayComponent,
+    CreateEventComponent,
+    UsersComponent,
+    MessengerComponent,
+    UserComponent,
+    UserDetailComponent,
+    Kind1Component,
+    ProfileEditComponent,
+    UsernamePipe,
+    SearchComponent,
+    NpubPipe,
+    HashtagPipe,
+    SafePipe,
+    TruncatePipe,
+    FollowingComponent,
+    PostDetailComponent,
+    NeventPipe,
+    EllipsisPipe,
+    ContactListComponent,
+    HumantimePipe,
+    FollowComponent,
+    LoadingComponent,
+    HashtagFeedComponent,
+    ZapComponent,
+    ImageDialogComponent,
+    NotificationsComponent,
+    NotificationComponent,
+    ListedUserComponent,
+    TrendingComponent,
+    ZapFeedComponent,
+    HomeFeedComponent,
+    UserBottomSheetComponent,
+    WalletComponent,
+    KeyboardPipe,
+    PaymentRequestComponent,
+    SendPaymentComponent,
+    PostQuickComponent,
+    HashtagQuickComponent,
+    MessagesListComponent,
+    PayInvoiceComponent,
+  ],
+  bootstrap: [AppComponent], imports: [BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSliderModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatCardModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatButtonModule,
+    MatBadgeModule,
+    MatDividerModule,
+    MatListModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatGridListModule,
+    FlexLayoutModule,
+    MatBottomSheetModule,
+    MatSnackBarModule,
+    AppRoutingModule,
+    QRCodeModule,
+    InfiniteScrollModule,
+    NgxIndexedDBModule.forRoot(dbConfig),
+    ReactiveFormsModule,
+    ZXingScannerModule],
+
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/' },
+    provideHttpClient(withInterceptorsFromDi()), // Add this
+    provideHttpCache(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useFactory: withHttpCacheInterceptor, // Use factory instead of useClass
+      multi: true
+    }
+  ]
+})
 export class AppModule { }
 
 
 declare global {
-    interface Window {
-      webln?: WebLNProvider;
-      nostr?: NostrWindow;
-    }
+  interface Window {
+    webln?: WebLNProvider;
+    nostr?: NostrWindow;
+  }
 }
