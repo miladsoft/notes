@@ -1,0 +1,112 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Courier New', Courier, monospace; }
+.page-header {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.user-at {
+    color: rgb(191, 58, 193);
+}
+
+.zap-time {
+    color: gray;
+    font-weight: bold;
+    font-size: small;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .router-container {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 50px;
+        padding-bottom: 5em;
+    }
+    .mat-bottom-sheet-container {
+        min-height: 90vh;
+        min-width: 100vw !important;
+        margin-top: 80px;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .router-container {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 50px;
+        padding-bottom: 5em;
+    }
+    .mat-bottom-sheet-container {
+        min-height: 90vh;
+        min-width: 100vw !important;
+        margin-top: 80px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .router-container {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 50px;
+        padding-bottom: 5em;
+    }
+    .mat-bottom-sheet-container {
+        min-height: 90vh;
+        min-width: 100vw !important;
+        margin-top: 80px;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .router-container { 
+        width: 50%;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 5em;
+    }
+    .mat-bottom-sheet-container {
+        padding: 8px 16px;
+        box-sizing: border-box;
+        display: block;
+        outline: 0;
+        max-height: 80vh;
+        min-height: 50vh;
+        overflow: auto;
+        min-width: 512px;
+        max-width: calc(100vw - 256px);
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .router-container { 
+        width: 50%;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 5em;
+    }
+    .mat-bottom-sheet-container {
+        padding: 8px 16px;
+        box-sizing: border-box;
+        display: block;
+        outline: 0;
+        max-height: 80vh;
+        min-height: 50vh;
+        overflow: auto;
+        min-width: 512px;
+        max-width: calc(100vw - 256px);
+    }
+}

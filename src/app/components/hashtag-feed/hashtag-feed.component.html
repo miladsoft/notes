@@ -1,0 +1,12 @@
+<div class="router-container">
+    <div class="page-header">
+        <h1>#{{hashtag}}</h1>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="feed" *ngFor="let post of posts">
+        <app-post [post]="post"></app-post>
+    </div>
+    <div *ngIf="posts.length === 0">
+        <app-loading></app-loading>
+    </div>
+</div>

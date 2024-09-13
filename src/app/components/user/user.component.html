@@ -1,0 +1,120 @@
+<mat-card class="user-card" *ngIf="user">
+    <mat-card-header>
+        <img
+            *ngIf="user.picture"
+            class="header-image"
+            mat-card-avatar
+            src="{{user.picture}}"
+            (click)="enlargeUserPicture()"/>
+        <div class="more-vert">
+            <button *ngIf="canEdit" mat-icon-button color="primary" routerLink="/settings">
+                <mat-icon>settings</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="copyLink()">
+                    <span>Share Link</span>
+                </button>
+                <button mat-menu-item (click)="setFollowingListAsYours()">
+                    <span>Set Following List as Yours (danger)</span>
+                </button>
+            </mat-menu>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-card-title>{{user.displayName|truncate}}</mat-card-title>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <button *ngIf="nsec && isMyProfile" mat-icon-button color="warn" (click)="showNsec()">
+                    <mat-icon>{{nsecButton}}</mat-icon>
+                </button>
+                <button *ngIf="user.lud16" mat-icon-button class="orange-icon" (click)="zap()">
+                    <mat-icon>bolt</mat-icon>
+                </button>
+                <button mat-icon-button class="secondary" (click)="showUserQR()">
+                    <mat-icon>qr_code_2</mat-icon>
+                </button>
+                <button *ngIf="canEdit" mat-stroked-button color="primary" routerLink="/profile-edit">
+                    edit profile
+                </button>
+                <app-follow *ngIf="!isMyProfile" [user]="user" [following]="following"></app-follow>
+            </div>
+        </div>
+        <mat-card-subtitle class="user-info" *ngIf="nip05Verified" class="nip05" fxLayout="row">
+            <mat-icon [inline]="true">verified</mat-icon><span class="wrap-text"> {{user.nip05}}</span>
+        </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="user?.username">
+          {{ '@' + user.username }}
+        </mat-card-subtitle>
+                <mat-card-subtitle class="npub" (click)="copynpub()">
+          {{user.npub|ellipsis}}
+          <mat-icon [inline]="true">content_copy</mat-icon>
+        </mat-card-subtitle>
+        <mat-card-subtitle [innerHTML]="user.aboutHTML | safe"></mat-card-subtitle>
+        <p class="small-bio-info" *ngIf="user.website" fxLayout="row">
+            <mat-icon [inline]="true">link</mat-icon>
+            <a class="wrap-text" href="{{user.website}}" target="_blank"> {{user.website}}</a>
+        </p>
+        <p class="small-bio-info lightning-address" *ngIf="user.lud16" fxLayout="row">
+            <mat-icon [inline]="true">bolt</mat-icon><span class="wrap-text"> {{user.lud16}}</span>
+        </p>
+    </mat-card-content>
+    <mat-card-content>
+        <p>
+            <span *ngIf="displaynsec" class="nsec-display" (click)="copynsec()">
+                {{nsec}}<mat-icon [inline]="true">content_copy</mat-icon>
+            </span>
+        </p>
+        <div *ngIf="displayUserQR">
+            <p class="qrcode">
+                <span>Add {{user.displayName}} on Nostr</span>
+                <mat-divider></mat-divider>
+                <qrcode [qrdata]="userQRLink" [colorDark]="'#ff8c00'" [errorCorrectionLevel]="'M'"></qrcode>
+            </p>
+        </div>
+        <div *ngIf="showZapForm">
+            <p>
+                <mat-card-content fxLayout="row" fxLayoutAlign="space-evenly">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sats</mat-label>
+                        <input matInput [(ngModel)]="sats" placeholder="sats">
+                    </mat-form-field>
+                    <button mat-fab (click)="sendZap()">
+                        <mat-icon>bolt</mat-icon>
+                    </button>
+                </mat-card-content>
+            </p>
+        </div>
+        <div *ngIf="paymentInvoice && showInvoiceSection" class="invoice">
+            <div class="invoice-title">
+                <h2>Invoice</h2>
+                <mat-divider></mat-divider>
+                <br>
+            </div>
+            <div class="lightning-buttons" fxLayoutAlign="space-evenly center">
+                <button mat-fab color="primary" (click)="copyInvoice()">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+                <button mat-fab color="accent" (click)="showQRCode()">
+                    <mat-icon>qr_code_2</mat-icon>
+                </button>
+                <button mat-fab color="warn" (click)="hideInvoice()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <p *ngIf="displayQRCode" class="qrcode" >
+                <span>Scan with phone to pay ({{invoiceAmount}} sats)</span>
+                <mat-divider></mat-divider>
+                <qrcode [qrdata]="paymentInvoice" [colorDark]="'#800080'" [imageSrc]="'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'" [title]="'Lightning Invoice'" [errorCorrectionLevel]="'M'"></qrcode>
+            </p>
+        </div>
+    </mat-card-content>
+    <div>
+        <button mat-button routerLink="/users/{{user.npub}}/following">
+            <span *ngIf="followingCount != 0">{{followingCount}}</span><span *ngIf="followingCount == 0">?</span> following
+        </button>
+        <button mat-button routerLink="/users/{{user.npub}}/followers">
+            <span *ngIf="followerCount != 0">{{followerCount}}</span><span *ngIf="followerCount == 0">?</span> followers
+        </button>
+    </div>
+</mat-card>

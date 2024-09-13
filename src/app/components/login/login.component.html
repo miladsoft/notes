@@ -1,0 +1,78 @@
+<div class="whole-page">
+    <div *ngIf="initialLoginView">
+        <div class="app-title">
+            <p class="title-container">
+                <span class="title">notes</span>
+                <br>
+                <small class="subtitle">social media built different</small>
+            </p>
+        </div>
+        <div class="login-options">
+            <p>
+                <button mat-fab extended color="generate" (click)="generateNewKey()">
+                    Create Account
+                </button>
+            </p>
+            <p>
+                <button mat-fab extended color="extension" (click)="loginWithPrivateKey()">
+                    Login
+                </button>
+            </p>
+        </div>
+    </div>
+    <div *ngIf="generateNewKeyView">
+        <p class="title-container">
+            <span class="title">nostr keys</span>
+            <br>
+            <small class="subtitle">store nsec in a safe place!</small>
+        </p>
+        <div class="login-info">
+            <div class="key-title">npub</div>
+            <div class="key-subtitle">(share this)</div>
+            <p class="key" (click)="copynpub()">
+                {{npub}}<mat-icon [inline]="true">content_copy</mat-icon>
+            </p>
+            <div class="key-title">nsec</div>
+            <div class="key-subtitle">(keep this secret)</div>
+            <p class="key" (click)="copynsec()">
+                {{nsec}}<mat-icon [inline]="true">content_copy</mat-icon>
+            </p>
+        </div>
+        <div class="login-action-buttons">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <button mat-fab extended color="warn" (click)="home()">
+                    Back
+                </button>
+                <button mat-fab extended color="extension" (click)="goToApp()">
+                    Go!
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loginWithPrivateKeyView">
+        <p class="title-container">
+            <span class="title">login with nsec</span>
+        </p>
+        <div class="key-subtitle">leave blank and hit Go to login with browser extension</div>
+        <div class="login-info">
+            <div class="nsec-form">
+                <p>
+                    <mat-form-field appearance="outline" color="accent">
+                        <mat-label>paste nsec here</mat-label>
+                        <input matInput [(ngModel)]="nsec">
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+        <div class="login-action-buttons">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <button mat-fab extended color="warn" (click)="home()">
+                    Back
+                </button>
+                <button mat-fab extended color="extension" (click)="goToApp()">
+                    Go!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

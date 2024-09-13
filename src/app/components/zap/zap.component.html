@@ -1,0 +1,7 @@
+<div
+    *ngIf="zap"
+    class="zap-content"
+    [innerHTML]="zap.content | safe"
+    (click)="processLinks($event)"
+    routerLink="/posts/{{zap.receiverEventId|nevent}}">
+</div>

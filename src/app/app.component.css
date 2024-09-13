@@ -1,0 +1,13 @@
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    margin-bottom: 4em;
+}
+
+.top-spacing {
+    padding-top: 5em;
+}

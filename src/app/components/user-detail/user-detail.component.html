@@ -1,0 +1,58 @@
+<div class="router-container">
+    <div *ngIf="!user && !loading && viewingSelf" class="no-profile-yet">
+        <p class="title-container">
+            <small class="subtitle">{{welcomeMessage}}</small>
+        </p>
+        <p>
+            <button mat-fab extended color="primary" routerLink="/profile-edit">Create Profile</button>
+        </p>
+        <p>
+            <button mat-fab extended color="explore" routerLink="/feed">Explore Nostr</button>
+        </p>
+        <p>
+            <button mat-fab extended color="accent" routerLink="/settings">Settings</button>
+        </p>
+        <p>
+            <button mat-fab extended color="accent" (click)="signOut()">Sign Out</button>
+        </p>
+    </div>
+    <div *ngIf="user">
+        <!-- <div class="banner">
+            <img class="banner-image" (click)="enlargeBanner()" src="{{user.banner}}"/>
+        </div> -->
+        <app-user [user]="user" [nip05Verified]="nip05Verified" [canEnlarge]="true"></app-user>
+        <mat-divider></mat-divider>
+        <div
+            *ngIf="posts"
+            infiniteScroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="500"
+            (scrolled)="onScroll()"
+            [scrollWindow]="true"
+        >
+            <mat-tab-group>
+                <mat-tab label="Posts">
+                    <div *ngFor="let post of posts">
+                        <app-post *ngIf="!post.isAReply" [post]="post"></app-post>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Replies">
+                    <div *ngFor="let post of posts">
+                        <app-post *ngIf="post.isAReply" [post]="post"></app-post>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div *ngIf="posts.length === 0 && !loading">
+            <p>Nothing here...</p>
+        </div>
+    </div>
+    <div *ngIf="userNotFound && !viewingSelf">
+        <mat-card>
+            <mat-card-content>User Not Found</mat-card-content>
+        </mat-card>
+    </div>
+    <div *ngIf="loading">
+        <app-loading></app-loading>
+    </div>
+</div>

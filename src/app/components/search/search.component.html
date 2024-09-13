@@ -1,0 +1,42 @@
+<div class="router-container">
+    <div class="search-header">
+        <div class="search-div" fxLayout="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Search hastags..</mat-label>
+                <input matInput placeholder="search" [(ngModel)]="search">
+            </mat-form-field>
+            <button mat-fab color="primary" (click)="submit()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+    </div>
+    
+    <!-- TradingView Widget BEGIN -->
+    <div [hidden]="!searchCanHaveChart" class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"></div>
+        <div class="tradingview-widget-copyright">
+            <!-- <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+                <span class="blue-text">Track all markets on TradingView</span>
+            </a> -->
+        </div>
+        <div #tradingview class="widget-container"></div>
+    </div>
+    <!-- TradingView Widget END -->
+
+    <div
+        class="feed-posts"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()"
+        [scrollWindow]="true"
+    >
+        <div class="feed" *ngFor="let post of posts">
+            <app-post *ngIf="!post.isAReply" [post]="post" [likes]="post.likeCount"></app-post>
+        </div>
+    </div>
+    <div *ngIf="loading">
+        <app-loading></app-loading>
+    </div>
+</div>

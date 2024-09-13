@@ -1,0 +1,63 @@
+mat-card { 
+    box-shadow: none !important;
+}
+
+.user-info {
+    word-wrap: break-word;
+}
+
+.small-bio-info {
+    font-size: small;
+    word-wrap: break-word;
+}
+
+.orange-icon {
+    color: #ff8c00;
+}
+
+.lightning-address {
+    color: orange;
+}
+
+.header-image {
+    background-size: cover;
+    border: 1px solid #2196f3;
+}
+
+mat-card-header img {
+    margin-bottom: 2px !important;
+    margin-top: 2px !important;
+    width: 80px;
+    height: 80px;
+}
+
+.npub {
+    color: purple;
+}
+
+.npub:hover {
+    cursor: pointer;
+}
+
+.nip15 {
+    color: #2196f3;
+}
+
+.user-card {
+    margin-bottom: 4px;
+    overflow-wrap: break-word;
+}
+
+.more-vert {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.nsec-display:hover {
+    cursor: pointer;
+}
+
+.wrap-text {
+    max-width: 100%;
+    word-wrap: break-word;
+}

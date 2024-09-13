@@ -1,0 +1,133 @@
+<mat-card class="post" *ngIf="post">
+    <div *ngIf="post.repostingPubkey" class="repost-header">
+        <p class="repost-p">
+            {{post.repostingPubkey | username | ellipsis}} reposted
+        </p>
+    </div>
+    <mat-card-header class="note-header">
+        <img 
+            *ngIf="post.picture"
+            class="header-image"
+            (click)="openUserBottomSheet()"
+            mat-card-avatar
+            src="{{post.picture}}"/>
+        <mat-card-subtitle routerLink="/users/{{post.pubkey|npub}}">
+            <div class="username">{{post.pubkey|username|ellipsis}}</div>
+        </mat-card-subtitle>
+        <div class="more-vert">
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <!-- <button mat-menu-item (click)="showEventJson()">
+                    <span>Log Event Json</span>
+                </button> -->
+                <button mat-menu-item (click)="followUser()">
+                    <span>{{followText}}</span>
+                </button>
+                <button mat-menu-item (click)="copyLink()">
+                    <span>Copy link</span>
+                </button>
+                <button mat-menu-item (click)="addToMuteList()">
+                    <span>Mute User</span>
+                </button>
+            </mat-menu>
+        </div>
+        <mat-card-subtitle>{{post.fromNow}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="note-content">
+        <div>
+            <span class="extras" routerLink="/posts/{{post.nostrEventId}}">id: {{post.nostrEventId|ellipsis}}</span>
+        </div>
+        <div *ngIf="post.nip10Result.profiles && post.nip10Result.profiles.length > 0">
+            <span class="extras">users: </span>
+            <span 
+                *ngFor="let profile of post.nip10Result.profiles"
+                routerLink="/users/{{profile.pubkey|npub}}"
+                class="extras">
+            {{profile.pubkey|username|ellipsis}}
+            </span>
+        </div>
+        <div *ngIf="post.nip10Result.reply">
+            <span class="extras">re: </span>
+            <span routerLink="/posts/{{post.nip10Result.reply.id|nevent}}" class="extras">{{post.nip10Result.reply.id|nevent|ellipsis}}</span>
+        </div>
+        <div *ngIf="post.nip10Result.root && !viewingRoot">
+            <span class="extras">root: </span>
+            <span routerLink="/posts/{{post.nip10Result.root.id|nevent}}" class="extras">{{post.nip10Result.root.id|nevent|ellipsis}}</span>
+        </div>
+        <div *ngIf="smallScreen && !imageBlurred" class="small-post-content-container">
+            <p class="post-content" [innerHTML]="post.content | safe" (click)="processLinks($event)"></p>
+        </div>
+        <div *ngIf="smallScreen && imageBlurred" class="small-post-content-container-blur">
+            <p class="post-content" [innerHTML]="post.content | safe" (click)="processLinks($event)"></p>
+        </div>
+        <div *ngIf="!smallScreen && !imageBlurred" class="large-post-content-container">
+            <p class="post-content" [innerHTML]="post.content | safe" (click)="processLinks($event)"></p>
+        </div>
+        <div *ngIf="!smallScreen && imageBlurred" class="large-post-content-container-blur">
+            <p class="post-content" [innerHTML]="post.content | safe" (click)="processLinks($event)"></p>
+        </div>
+    </mat-card-content>
+    <div class="post-buttons" fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxLayout="row" class="click-icon" fxLayoutAlign="space-around center">
+            <mat-icon class="icon-display" (click)="clickShowReplyForm()">mode_comment</mat-icon>
+            <span *ngIf="post.replyCount > 0">{{post.replyCount}}</span>
+        </div>
+        <div (click)="repost()" class="click-icon">
+            <mat-icon class="icon-display">autorenew</mat-icon>
+        </div>
+        <div fxLayout="row" (click)="zap()" class="click-icon" fxLayoutAlign="space-around center">
+            <mat-icon class="icon-display">bolt</mat-icon>
+            <span *ngIf="zapsCount">{{zapsCount}}</span>
+        </div>
+        <div *ngIf="!post.likedByMe" fxLayout="row" (click)="likePost()" class="click-icon" fxLayoutAlign="space-around center">
+            <mat-icon class="icon-display">favorite_outline</mat-icon>
+            <span *ngIf="likes">{{likes}}</span>
+        </div>
+        <div *ngIf="post.likedByMe" fxLayout="row" class="click-icon" fxLayoutAlign="space-around center">
+            <mat-icon class="icon-display" color="warn">favorite</mat-icon>
+            <span *ngIf="likes">{{likes}}</span>
+        </div>
+        <div *ngIf="!inPostDetail"  class="click-icon" (click)="openPostDetail()">
+            <mat-icon class="icon-display">open_in_full</mat-icon>
+        </div>
+    </div>
+    <div *ngIf="showZapForm">
+        <mat-card-content class="zap-form-container" fxLayout="row" fxLayoutAlign="space-evenly">
+            <mat-form-field appearance="outline">
+                <mat-label>Sats</mat-label>
+                <input type="number" matInput [(ngModel)]="sats" placeholder="sats">
+            </mat-form-field>
+            <button mat-fab (click)="sendZap()">
+                <mat-icon>bolt</mat-icon>
+            </button>
+        </mat-card-content>
+    </div>
+    <div *ngIf="paymentInvoice && showInvoiceSection" class="invoice">
+        <div class="invoice-title">
+            <h2>Invoice</h2>
+            <mat-divider></mat-divider>
+            <br>
+        </div>
+        <div class="lightning-buttons" fxLayoutAlign="space-evenly center">
+            <button mat-fab color="primary" (click)="copyInvoice()">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+            <button mat-fab color="accent" (click)="showQRCode()">
+                <mat-icon>qr_code_2</mat-icon>
+            </button>
+            <button mat-fab color="warn" (click)="hideInvoice()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <p *ngIf="displayQRCode" class="qrcode" >
+            <span>Scan with phone to pay ({{invoiceAmount}} sats)</span>
+            <mat-divider></mat-divider>
+            <qrcode [qrdata]="paymentInvoice" [colorDark]="'#800080'" [imageSrc]="'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'" [title]="'Lightning Invoice'" [errorCorrectionLevel]="'M'"></qrcode>
+        </p>
+    </div>
+    <p>
+        <mat-divider></mat-divider>
+    </p>
+</mat-card>
