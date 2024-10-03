@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UnsignedEvent, nip19, getPublicKey, nip04, Event } from 'nostr-tools';
+import { UnsignedEvent, nip19, getPublicKey, nip04, Event, finalizeEvent } from 'nostr-tools';
 import { Buffer } from 'buffer';
+import { hexToBytes } from '@noble/hashes/utils';
 
 
 @Injectable({
@@ -214,16 +215,12 @@ export class SignerService {
     handleLoginWithNsec(nsec: string) {
       let privateKey: string;
       try {
-          // Decode nsec to get the private key in hex format
           privateKey = nip19.decode(nsec).data as string;
 
-          // Ensure the private key is a 32-byte Uint8Array
           const privateKeyUint8Array = new Uint8Array(Buffer.from(privateKey, 'hex'));
 
-          // Get public key using the private key in Uint8Array format
           let pubkey = getPublicKey(privateKeyUint8Array);
 
-          // Save the private and public keys in the session
           this.savePrivateKeyToSession(privateKey);
           this.savePublicKeyToSession(pubkey);
 
@@ -310,6 +307,28 @@ export class SignerService {
           console.error("Error during decryption: ", error);
           return "*Failed to Decrypted Content*";
       }
+  }
+
+
+  getUnsignedEvent(kind: number, tags: string[][], content: string) {
+    const eventUnsigned: UnsignedEvent = {
+        kind: kind,
+        pubkey: this.getPublicKey(),
+        tags: tags,
+        content: content,
+        created_at: Math.floor(Date.now() / 1000),
+    }
+    return eventUnsigned
+}
+
+getSignedEvent(eventUnsigned: UnsignedEvent, privateKey: string): Event {
+    // Convert the private key from hex string to Uint8Array
+    const privateKeyBytes = hexToBytes(privateKey);
+
+    // finalizing and signing the event in one step
+    const signedEvent: Event = finalizeEvent(eventUnsigned, privateKeyBytes);
+
+    return signedEvent;
   }
 
 }

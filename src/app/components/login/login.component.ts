@@ -125,7 +125,7 @@ export class LoginComponent {
   }
 
   setPrivateKey() {
-    this.privateKey = generateSecretKey(); // تغییر به generateSecretKey
+    this.privateKey = generateSecretKey();
   }
 
   setPublicKey() {
